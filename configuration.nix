@@ -71,6 +71,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
     #  thunderbird
+    zed-editor
     ];
   };
 
