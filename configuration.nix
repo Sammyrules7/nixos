@@ -72,6 +72,7 @@
     packages = with pkgs; [
     #  thunderbird
     zed-editor
+    osu-lazer-bin
     ];
   };
 
