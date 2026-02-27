@@ -73,6 +73,7 @@
     #  thunderbird
     zed-editor
     osu-lazer-bin
+    gh
     ];
   };
 
