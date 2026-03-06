@@ -63,6 +63,7 @@
       zed-editor
       osu-lazer-bin
       gh
+      btop
     ];
   };
 
@@ -79,7 +80,7 @@
 
       wayland.windowManager.hyprland.enable = true;
       imports = [
-        #./Configs/Hypr/Hyprland/Hyprland.nix
+        ./Configs/Hypr/Hyprland/Hyprland.nix
         ./Configs/Hypr/Hyprland/Binds.nix
         ./Computers/Desktop/Displays.nix
         ./Configs/Hypr/Hyprland/Permissions.nix
