@@ -8,6 +8,7 @@
     # Apps
     "$mod, return, exec, ghostty"
     "$mod_SHIFT, B, exec, zen-beta"
+    "$mod_SHIFT, T, exec, ghostty -e btop"
 
     "$mod, W, killactive,"
     "$mod_ALT, W, forcekillactive"

@@ -63,7 +63,6 @@
       zed-editor
       osu-lazer-bin
       gh
-      btop
     ];
   };
 
@@ -90,6 +89,7 @@
         ./Configs/Hypr/Hyprland/Autostart.nix
         ./Configs/Hypr/Hyprland/HyprPanel.nix
         ./Configs/Ghostty.nix
+        ./Configs/Btop.nix
       ];
 
       programs.hyprpanel.enable = true;
