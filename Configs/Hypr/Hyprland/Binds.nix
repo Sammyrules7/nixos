@@ -10,6 +10,7 @@
     "$mod_SHIFT, B, exec, zen-beta"
 
     "$mod, W, killactive,"
+    "$mod_ALT, W, forcekillactive"
 
     "$mod, V, togglefloating,"
     #"$mod, R, exec, $menu"
