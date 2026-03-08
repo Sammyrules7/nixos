@@ -15,8 +15,9 @@
   '';
 
   security.pam.services = {
-    sudo.fprintAuth = true;
-    greetd.fprintAuth = true;
     login.fprintAuth = true;
+    sudo.fprintAuth = true;
+    su.fprintAuth = true;
+    greetd.fprintAuth = true;
   };
 }
