@@ -10,11 +10,18 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.Desktop = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
-        ./configuration.nix
-        # 2. Add the NixOS module here
+        ./hosts/desktop
+        home-manager.nixosModules.home-manager
+      ];
+    };
+
+    nixosConfigurations.Laptop = nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./hosts/laptop
         home-manager.nixosModules.home-manager
       ];
     };

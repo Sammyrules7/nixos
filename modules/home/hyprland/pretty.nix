@@ -45,8 +45,6 @@
       };
     };
 
-
-
     animations = {
         enabled = "yes, please :)";
 
