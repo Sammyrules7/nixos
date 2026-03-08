@@ -4,6 +4,7 @@
   imports = [
     ../common
     ./hardware-configuration.nix
+    ./fprintd.nix
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
   ];
 
