@@ -16,7 +16,7 @@
   fileSystems."/" =
     { device = "/dev/mapper/luks-9a6748f1-b660-4f2c-b9fe-40b0dd70c0d7";
       fsType = "btrfs";
-      options = [ "subvol=@" ];
+      options = [ "subvol=@" "noatime" "compress=zstd:1" ];
     };
 
   boot.initrd.luks.devices."luks-9a6748f1-b660-4f2c-b9fe-40b0dd70c0d7".device = "/dev/disk/by-uuid/9a6748f1-b660-4f2c-b9fe-40b0dd70c0d7";
@@ -24,13 +24,13 @@
   fileSystems."/home" =
     { device = "/dev/mapper/luks-9a6748f1-b660-4f2c-b9fe-40b0dd70c0d7";
       fsType = "btrfs";
-      options = [ "subvol=@home" ];
+      options = [ "subvol=@home" "noatime" "compress=zstd:1" ];
     };
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/C334-7EEA";
       fsType = "vfat";
-      options = [ "fmask=0077" "dmask=0077" ];
+      options = [ "fmask=0077" "dmask=0077" "noatime" ];
     };
 
   swapDevices = [ ];

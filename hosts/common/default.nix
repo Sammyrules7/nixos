@@ -19,14 +19,15 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # --- Boot & Kernel ---
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.timeout = 0;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
+  imports = [
+    ./boot.nix
+  ];
   # --- Networking ---
   networking.networkmanager.enable = true;
+  systemd.services.NetworkManager-wait-online.enable = false; # Don't wait for network startup
+
+  # --- Documentation ---
+  documentation.nixos.enable = false;
 
   # --- Localization ---
   time.timeZone = "America/Edmonton";
@@ -36,9 +37,14 @@
   programs.hyprland.enable = true;
 
   # --- Login Manager ---
-  services.displayManager.sddm = {
+  services.greetd = {
     enable = true;
-    wayland.enable = true; # Use the Wayland version of SDDM
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd 'start-hyprland' --sessions /run/current-system/sw/share/wayland-sessions";
+        user = "greeter";
+      };
+    };
   };
 
   # --- Hardware Services ---
