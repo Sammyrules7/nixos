@@ -1,9 +1,12 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   # --- Nix & Flake Settings ---
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     substituters = [
       "https://cache.nixos.org/"
       "https://zen-browser.cachix.org"
@@ -54,7 +57,10 @@
   users.users.sammy = {
     isNormalUser = true;
     description = "Sammy";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
       zed-editor
       osu-lazer-bin
