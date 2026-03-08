@@ -74,6 +74,7 @@
       bluetui
       nixd
       nil
+      gemini-cli
     ];
   };
 
