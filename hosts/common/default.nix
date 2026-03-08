@@ -39,6 +39,8 @@
   };
 
   # --- Hardware Services ---
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -57,6 +59,9 @@
       zed-editor
       osu-lazer-bin
       gh
+      bluetui
+      nixd
+      nil
     ];
   };
 
