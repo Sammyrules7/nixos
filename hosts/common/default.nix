@@ -95,7 +95,6 @@
   ];
 
   # --- System Programs ---
-  programs.firefox.enable = true;
 
   # --- State Version ---
   system.stateVersion = "25.11";
