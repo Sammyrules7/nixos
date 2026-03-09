@@ -5,6 +5,7 @@
     ../common
     ./hardware-configuration.nix
     ./fprintd.nix
+    ../../modules/services/wluma.nix
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
   ];
 
