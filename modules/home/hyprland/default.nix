@@ -8,6 +8,7 @@
     ./input.nix
     ./permissions.nix
     ./pretty.nix
+    ./sunset.nix
     ./windowrules.nix
   ];
 
