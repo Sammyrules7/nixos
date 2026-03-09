@@ -10,12 +10,15 @@
 
   networking.hostName = "Sammy_Laptop";
 
-  boot.kernelParams = [ 
-    "amd_iommu=off" 
+  boot.kernelParams = [
+    "amd_iommu=off"
     "amdgpu.fastboot=1"
   ];
 
-  users.users.sammy.extraGroups = [ "video" "iio" ];
+  users.users.sammy.extraGroups = [
+    "video"
+    "iio"
+  ];
 
   boot.initrd.kernelModules = [
     "tpm_crb"
@@ -31,6 +34,7 @@
 
   environment.systemPackages = with pkgs; [
     (btop.override { rocmSupport = true; })
+    brightnessctl
   ];
 
   boot.initrd.luks.devices."luks-9a6748f1-b660-4f2c-b9fe-40b0dd70c0d7" = {
