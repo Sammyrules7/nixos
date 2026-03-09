@@ -11,6 +11,7 @@
     ./ghostty.nix
     ./btop.nix
     ./theming.nix
+    ./walker.nix
   ];
 
   home.stateVersion = "25.11";

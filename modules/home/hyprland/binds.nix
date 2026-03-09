@@ -14,7 +14,7 @@
     "$mod_ALT, W, forcekillactive"
 
     "$mod, V, togglefloating,"
-    #"$mod, R, exec, $menu"
+    "$mod, SPACE, exec, walker"
     "$mod, P, pseudo,"
     "$mod, J, togglesplit,"
     "$mod, F, fullscreen"
