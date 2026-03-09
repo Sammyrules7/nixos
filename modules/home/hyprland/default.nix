@@ -18,8 +18,9 @@
         allow_tearing = true;
       };
       env = [
-        #"GTK_SCALE,0.75"
-        #"QT_SCALE_FACTOR,0.75"
+        "GDK_DPI_SCALE,0.75"
+        "QT_SCALE_FACTOR,0.75"
+        "QT_FONT_DPI,72"
       ];
     };
   };
