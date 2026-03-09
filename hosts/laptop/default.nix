@@ -10,6 +10,13 @@
 
   networking.hostName = "Sammy_Laptop";
 
+  boot.kernelParams = [ 
+    "amd_iommu=off" 
+    "amdgpu.fastboot=1"
+  ];
+
+  users.users.sammy.extraGroups = [ "video" "iio" ];
+
   boot.initrd.kernelModules = [
     "tpm_crb"
     "amdgpu"

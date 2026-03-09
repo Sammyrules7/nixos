@@ -29,6 +29,5 @@
     "rd.systemd.show_status=auto"
     "nowatchdog"
     "nmi_watchdog=0"
-    "amdgpu.fastboot=1"
   ];
 }
