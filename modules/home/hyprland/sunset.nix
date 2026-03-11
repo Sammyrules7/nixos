@@ -4,11 +4,11 @@
   # wlsunset for seamless blue light transitions
   services.wlsunset = {
     enable = true;
-    
+
     # Edmonton coordinates
     latitude = "53.5";
     longitude = "-113.5";
-    
+
     # Temperature settings
     temperature = {
       day = 6500;
