@@ -26,6 +26,7 @@
 
   imports = [
     ./boot.nix
+    ../../modules/vrc.nix
   ];
   # --- Networking ---
   networking.networkmanager.enable = true;
