@@ -31,7 +31,8 @@
 
   imports = [
     ./boot.nix
-    ../../modules/vrc.nix
+    ../../modules/vr.nix
+    ../../modules/steam.nix
   ];
   # --- Networking ---
   networking.networkmanager.enable = true;
