@@ -24,6 +24,11 @@
   services.flatpak.enable = true;
   nixpkgs.config.allowUnfree = true;
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+  };
+
   imports = [
     ./boot.nix
   ];
@@ -97,8 +102,6 @@
     # Zen Browser from your Flake input
     inputs.zen-browser.packages."${pkgs.system}".default
   ];
-
-  # --- System Programs ---
 
   # --- State Version ---
   system.stateVersion = "25.11";
