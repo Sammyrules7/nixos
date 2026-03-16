@@ -9,6 +9,7 @@
         "nix-command"
         "flakes"
       ];
+      auto-optimise-store = true;
       substituters = [
         "https://cache.nixos.org/"
         "https://zen-browser.cachix.org"
@@ -22,6 +23,14 @@
         "walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="
       ];
     };
+
+    nix.gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+
+    systemd.services.nix-gc.unitConfig.ConditionACPower = true;
 
     nixpkgs.config.allowUnfree = true;
 
