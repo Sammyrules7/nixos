@@ -1,4 +1,10 @@
-{ inputs, pkgs, ... }:
+{
+  config,
+  lib,
+  inputs,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -12,19 +18,23 @@
     ./windowrules.nix
   ];
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    settings = {
-      general = {
-        allow_tearing = true;
-      };
-      env = [
-        "GDK_DPI_SCALE,0.75"
-        "QT_SCALE_FACTOR,0.75"
-        "QT_FONT_DPI,72"
-      ];
-    };
-  };
+  options.features.hyprland.enable = lib.mkEnableOption "Hyprland desktop environment user configuration";
 
-  programs.hyprpanel.enable = true;
+  config = lib.mkIf config.features.hyprland.enable {
+    wayland.windowManager.hyprland = {
+      enable = true;
+      settings = {
+        general = {
+          allow_tearing = true;
+        };
+        env = [
+          "GDK_DPI_SCALE,0.75"
+          "QT_SCALE_FACTOR,0.75"
+          "QT_FONT_DPI,72"
+        ];
+      };
+    };
+
+    programs.hyprpanel.enable = true;
+  };
 }
