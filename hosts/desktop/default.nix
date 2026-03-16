@@ -6,6 +6,9 @@
     ./hardware-configuration.nix
   ];
 
+  features.gaming.steam.enable = true;
+  features.gaming.vr.enable = true;
+
   networking.hostName = "Sammy_Desktop";
 
   boot.initrd.luks.devices."luks-c30766d4-738f-4fa0-9570-a026696d128a" = {
