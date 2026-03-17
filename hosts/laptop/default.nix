@@ -8,6 +8,7 @@
   ];
 
   features.fprintd.enable = true;
+  features.power.enable = true;
   features.upgrade = {
     cpuThreads = 2;
     memoryHigh = "8G";

@@ -19,8 +19,34 @@
       config = {
         search.placeholder = "Search...";
         ui.fullscreen = false;
-        ui.width = 400;
-        list.height = 300;
+        ui.width = 450;
+        list.height = 400;
+        modules = [
+          {
+            name = "applications";
+            prefix = "";
+          }
+          {
+            name = "commands";
+            prefix = ":";
+          }
+          {
+            name = "websearch";
+            prefix = "?";
+          }
+          {
+            name = "calculator";
+            prefix = "=";
+          }
+          {
+            name = "power";
+            prefix = "!";
+          }
+          {
+            name = "finder";
+            prefix = "/";
+          }
+        ];
       };
     };
   };

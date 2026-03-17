@@ -15,6 +15,9 @@
 
     "$mod, V, togglefloating,"
     "$mod, SPACE, exec, walker"
+    "$mod, ESCAPE, exec, walker -m power"
+    "$mod_SHIFT, L, exec, systemctl hibernate"
+    "$mod, L, exec, hyprlock"
     "$mod, P, pseudo,"
     "$mod, J, togglesplit,"
     "$mod, F, fullscreen"

@@ -10,6 +10,7 @@
     ./fprintd.nix
     ./hyprland.nix
     ./networking.nix
+    ./power.nix
     ./steam.nix
     ./users.nix
     ./upgrade.nix
