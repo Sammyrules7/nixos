@@ -12,6 +12,7 @@
   features.audio.enable = true;
   features.bluetooth.enable = true;
   features.flatpak.enable = true;
+  features.upgrade.enable = true;
   features.hyprland.enable = true;
   features.users.sammy.enable = true;
 

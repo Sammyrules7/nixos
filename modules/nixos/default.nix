@@ -12,6 +12,7 @@
     ./networking.nix
     ./steam.nix
     ./users.nix
+    ./upgrade.nix
     ./vr.nix
   ];
 }

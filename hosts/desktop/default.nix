@@ -8,6 +8,11 @@
 
   features.gaming.steam.enable = true;
   features.gaming.vr.enable = true;
+  features.upgrade = {
+    cpuThreads = 5;
+    memoryHigh = "16G";
+    memoryMax = "32G";
+  };
 
   networking.hostName = "Sammy_Desktop";
 

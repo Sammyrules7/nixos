@@ -8,6 +8,11 @@
   ];
 
   features.fprintd.enable = true;
+  features.upgrade = {
+    cpuThreads = 2;
+    memoryHigh = "8G";
+    memoryMax = "10G";
+  };
 
   networking.hostName = "Sammy_Laptop";
 
