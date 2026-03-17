@@ -47,6 +47,10 @@
     imports = [
       ./displays.nix
     ];
+    features.voxtype = {
+      enable = true;
+      model = "base.en";
+    };
     wayland.windowManager.hyprland.settings.input.sensitivity = 0.3;
   };
 }

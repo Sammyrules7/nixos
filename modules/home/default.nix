@@ -13,6 +13,7 @@
     ./walker.nix
     ./vesktop.nix
     ./fonts.nix
+    ./voxtype.nix
   ];
 
   home.stateVersion = "25.11";
