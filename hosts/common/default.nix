@@ -16,6 +16,12 @@
   features.hyprland.enable = true;
   features.users.sammy.enable = true;
 
+  home-manager = {
+    backupFileExtension = "backup";
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
+
   # --- Home Manager User Features ---
   home-manager.users.sammy = {
     features.hyprland.enable = true;
@@ -24,6 +30,6 @@
     features.theming.enable = true;
     features.walker.enable = true;
     features.vesktop.enable = true;
-    features.fonts.enable = true;
-  };
-}
+    };
+    }
+

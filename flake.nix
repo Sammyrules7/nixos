@@ -10,6 +10,8 @@
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
 
+    stylix.url = "github:nix-community/stylix";
+
     elephant.url = "github:abenz1267/elephant";
     walker = {
       url = "github:abenz1267/walker";
@@ -28,6 +30,7 @@
       nixosConfigurations.Desktop = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
+          inputs.stylix.nixosModules.stylix
           ./hosts/desktop
           home-manager.nixosModules.home-manager
         ];
@@ -36,6 +39,7 @@
       nixosConfigurations.Laptop = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
+          inputs.stylix.nixosModules.stylix
           ./hosts/laptop
           home-manager.nixosModules.home-manager
         ];

@@ -11,7 +11,7 @@
   config = lib.mkIf config.features.hyprland.hyprlock.enable {
     programs.hyprlock = {
       enable = true;
-      settings = {
+      settings = lib.mkForce {
         general = {
           disable_loading_bar = true;
           hide_cursor = true;
@@ -22,7 +22,7 @@
           {
             path = "screenshot"; # only png supported for now
             color = "rgba(25, 20, 20, 1.0)";
-            blur_passes = 2; # 0 disables blurring
+            blur_passes = 3; # increased for better effect
             noise = 0.0117;
             contrast = 0.8916;
             brightness = 0.8172;
@@ -55,7 +55,7 @@
             text = "$TIME";
             color = "rgba(200, 200, 200, 1.0)";
             font_size = 64;
-            font_family = "Noto Sans";
+            font_family = "JetBrainsMono Nerd Font Mono";
             position = "0, 80";
             halign = "center";
             valign = "center";
@@ -63,5 +63,9 @@
         ];
       };
     };
+
+    wayland.windowManager.hyprland.settings.permission = lib.mkAfter [
+      " .*hyprlock*. , screencopy, allow"
+    ];
   };
 }

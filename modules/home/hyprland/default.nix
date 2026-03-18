@@ -33,8 +33,8 @@
           allow_tearing = true;
         };
         env = [
-          "GDK_DPI_SCALE,0.75"
-          "QT_SCALE_FACTOR,0.75"
+          "GDK_DPI_SCALE,${builtins.toString config.features.theming.scaling}"
+          "QT_SCALE_FACTOR,${builtins.toString config.features.theming.scaling}"
           "QT_FONT_DPI,72"
         ];
       };

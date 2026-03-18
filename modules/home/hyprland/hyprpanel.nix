@@ -36,7 +36,7 @@
       theme.bar.transparent = true;
 
       theme.font = {
-        name = "CaskaydiaCove NF";
+        name = "JetBrainsMono Nerd Font Mono";
         size = "16px";
       };
     };

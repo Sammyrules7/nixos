@@ -12,7 +12,6 @@
     ./theming.nix
     ./walker.nix
     ./vesktop.nix
-    ./fonts.nix
     ./voxtype.nix
   ];
 

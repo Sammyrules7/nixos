@@ -12,6 +12,7 @@
     ./networking.nix
     ./power.nix
     ./steam.nix
+    ./stylix.nix
     ./users.nix
     ./upgrade.nix
     ./vr.nix

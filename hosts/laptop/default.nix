@@ -57,6 +57,10 @@
       enable = true;
       model = "base.en";
     };
+    features.theming = {
+      enable = true;
+      scaling = 1.5;
+    };
     wayland.windowManager.hyprland.settings.input.sensitivity = 0.3;
   };
 }
