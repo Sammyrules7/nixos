@@ -7,6 +7,7 @@
 {
   imports = [
     ./hyprland
+    ./kdeconnect.nix
     ./ghostty.nix
     ./btop.nix
     ./theming.nix

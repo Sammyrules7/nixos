@@ -9,6 +9,7 @@
     ./flatpak.nix
     ./fprintd.nix
     ./hyprland.nix
+    ./kdeconnect.nix
     ./networking.nix
     ./power.nix
     ./steam.nix
