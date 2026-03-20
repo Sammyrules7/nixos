@@ -23,6 +23,7 @@
       ];
     };
     programs.gamemode.enable = true;
+    programs.gamescope.enable = true;
     hardware.steam-hardware.enable = true;
     boot.kernelModules = [ "hid-wiimote" ];
   };
