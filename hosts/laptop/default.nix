@@ -7,6 +7,7 @@
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
   ];
 
+  features.gaming.steam.enable = true;
   features.fprintd.enable = true;
   features.power.enable = true;
   features.upgrade = {
