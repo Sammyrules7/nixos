@@ -19,6 +19,7 @@
         nixd
         nil
         gemini-cli
+        inputs.helium.packages."${pkgs.system}".default
       ];
     };
 

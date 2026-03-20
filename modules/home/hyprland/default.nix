@@ -10,6 +10,7 @@
   imports = [
     ./autostart.nix
     ./binds.nix
+    ./web-apps.nix
     ./hyprpanel.nix
     ./hypridle.nix
     ./hyprlock.nix

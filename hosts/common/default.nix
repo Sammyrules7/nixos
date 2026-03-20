@@ -21,6 +21,7 @@
     backupFileExtension = "backup";
     useGlobalPkgs = true;
     useUserPackages = true;
+    extraSpecialArgs = { inherit inputs; };
   };
 
   # --- Home Manager User Features ---

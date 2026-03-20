@@ -9,6 +9,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    helium.url = "github:schembriaiden/helium-browser-nix-flake";
 
     stylix.url = "github:nix-community/stylix";
 
@@ -16,6 +17,11 @@
     walker = {
       url = "github:abenz1267/walker";
       inputs.elephant.follows = "elephant";
+    };
+
+    dashboard-icons = {
+      url = "github:homarr-labs/dashboard-icons";
+      flake = false;
     };
   };
 
