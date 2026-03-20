@@ -6,7 +6,10 @@
     ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
   ];
-
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true; # Helps with smooth frame timing
+  };
   features.gaming.steam.enable = true;
   features.fprintd.enable = true;
   features.power.enable = true;
@@ -32,11 +35,17 @@
     "tpm_crb"
     "amdgpu"
   ];
-
   hardware.graphics = {
     enable = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [
       rocmPackages.clr
+      libva
+      libva-utils
+      mesa.drivers
+    ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [
+      libva-vdpau-driver
     ];
   };
 
@@ -60,7 +69,7 @@
     };
     features.theming = {
       enable = true;
-      scaling = 1.5;
+      scaling = 1.0;
     };
     wayland.windowManager.hyprland.settings.input.sensitivity = 0.3;
   };
