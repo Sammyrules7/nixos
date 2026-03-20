@@ -5,6 +5,8 @@
     ../../modules/nixos
   ];
 
+  nix.settings.download-buffer-size = 524288000; # 500 MiB
+
   # --- Enable Core System Features ---
   features.core.enable = true;
   features.boot.enable = true;
