@@ -33,7 +33,6 @@
 
   boot.initrd.kernelModules = [
     "tpm_crb"
-    "amdgpu"
   ];
   hardware.graphics = {
     enable = true;

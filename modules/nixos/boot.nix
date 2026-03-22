@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.features.boot.enable = lib.mkEnableOption "Boot configuration";
@@ -32,6 +37,7 @@
       "rd.systemd.show_status=auto"
       "nowatchdog"
       "nmi_watchdog=0"
+      "8250.nr_uarts=0"
     ];
   };
 }
