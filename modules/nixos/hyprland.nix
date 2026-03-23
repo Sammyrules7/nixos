@@ -5,7 +5,7 @@
 
   config = lib.mkIf config.features.hyprland.enable {
     programs.hyprland.enable = true;
-    security.pam.services.hyprlock = {};
+    programs.hyprlock.enable = true;
 
     services.greetd = {
       enable = true;
