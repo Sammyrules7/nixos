@@ -14,6 +14,7 @@
     ./walker.nix
     ./vesktop.nix
     ./voxtype.nix
+    ./worktree-tool.nix
   ];
 
   home.stateVersion = "25.11";
