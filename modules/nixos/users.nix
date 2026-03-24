@@ -19,7 +19,7 @@
         nixd
         nil
         gemini-cli
-        inputs.helium.packages."${pkgs.system}".default
+        inputs.helium.packages."${pkgs.stdenv.hostPlatform.system}".default
       ];
     };
 
@@ -31,7 +31,7 @@
     };
 
     environment.systemPackages = [
-      inputs.zen-browser.packages."${pkgs.system}".default
+      inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
     ];
   };
 }

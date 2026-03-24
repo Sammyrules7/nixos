@@ -6,9 +6,9 @@
   config = lib.mkIf config.features.power.enable {
     # Power management for laptops (lid switch, battery, etc)
     services.logind = {
-      lidSwitch = "suspend-then-hibernate";
-      lidSwitchExternalPower = "suspend";
       settings.Login = {
+        HandleLidSwitch = "suspend-then-hibernate";
+        HandleLidSwitchExternalPower = "suspend";
         HandlePowerKey = "suspend";
         IdleAction = "suspend-then-hibernate";
         IdleActionSec = "20min";

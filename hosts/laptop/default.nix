@@ -41,7 +41,7 @@
       rocmPackages.clr
       libva
       libva-utils
-      mesa.drivers
+      mesa
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [
       libva-vdpau-driver
