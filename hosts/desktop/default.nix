@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -40,6 +40,7 @@
     imports = [
       ./displays.nix
     ];
+    features.btop.package = pkgs.btop.override { cudaSupport = true; };
     features.voxtype = {
       enable = true;
       model = "small.en";

@@ -49,7 +49,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    (btop.override { rocmSupport = true; })
     brightnessctl
   ];
 
@@ -62,6 +61,7 @@
     imports = [
       ./displays.nix
     ];
+    features.btop.package = pkgs.btop.override { rocmSupport = true; };
     features.voxtype = {
       enable = true;
       model = "base.en";
