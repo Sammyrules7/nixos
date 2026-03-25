@@ -24,6 +24,7 @@
   boot.kernelParams = [
     "amd_iommu=off"
     "amdgpu.fastboot=1"
+    "swiotlb=262144"
   ];
 
   users.users.sammy.extraGroups = [
