@@ -11,6 +11,7 @@
   features.core.enable = true;
   features.boot.enable = true;
   features.networking.enable = true;
+  features.oomd.enable = true;
   features.audio.enable = true;
   features.bluetooth.enable = true;
   features.flatpak.enable = true;

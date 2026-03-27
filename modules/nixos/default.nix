@@ -11,6 +11,7 @@
     ./hyprland.nix
     ./kdeconnect.nix
     ./networking.nix
+    ./oomd.nix
     ./power.nix
     ./steam.nix
     ./stylix.nix
