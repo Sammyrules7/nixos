@@ -240,12 +240,4 @@
       }
     '';
   };
-
-  wayland.windowManager.hyprland.settings = {
-    layerrule = [
-      "blur on, match:namespace waybar"
-      "xray off, match:namespace waybar"
-      "ignore_alpha 0.005, match:namespace waybar"
-    ];
-  };
 }

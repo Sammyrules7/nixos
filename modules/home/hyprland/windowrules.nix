@@ -1,6 +1,8 @@
+{ lib, ... }:
+
 {
   wayland.windowManager.hyprland.settings = {
-    extraConfigs = "
+    extraConfigs = lib.mkAfter "
 
     windowrule = match:class osu!, immediate yes
 
@@ -33,6 +35,23 @@
 
           move = 20 monitor_h-120
           float = yes
+      }
+
+      # Walker
+      layerrule {
+          name = walker-blur
+          match:namespace = ^(walker)$
+          blur = on
+          ignore_alpha = 0
+      }
+
+      # Waybar
+      layerrule {
+          name = waybar-blur
+          match:namespace = ^(waybar)$
+          blur = on
+          xray = off
+          ignore_alpha = 0.005
       }
     ";
   };
