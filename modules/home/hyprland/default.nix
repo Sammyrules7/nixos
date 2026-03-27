@@ -11,7 +11,7 @@
     ./autostart.nix
     ./binds.nix
     ./web-apps.nix
-    ./hyprpanel.nix
+    ./waybar.nix
     ./hypridle.nix
     ./hyprlock.nix
     ./input.nix
@@ -40,7 +40,5 @@
         ];
       };
     };
-
-    programs.hyprpanel.enable = true;
   };
 }

@@ -4,6 +4,8 @@
   options.features.power.enable = lib.mkEnableOption "Power management configuration";
 
   config = lib.mkIf config.features.power.enable {
+    services.power-profiles-daemon.enable = true;
+
     # Power management for laptops (lid switch, battery, etc)
     services.logind = {
       settings.Login = {
