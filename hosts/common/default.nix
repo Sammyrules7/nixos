@@ -36,6 +36,7 @@
     features.theming.enable = true;
     features.walker.enable = true;
     features.vesktop.enable = true;
+    features.zed.enable = true;
     features.worktree-tool.enable = true;
   };
 }

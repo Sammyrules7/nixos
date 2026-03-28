@@ -13,16 +13,16 @@
     services.earlyoom = {
       enable = true;
       enableNotifications = true;
-      freeMemThreshold = 5;
-      freeMemKillThreshold = 2;
+      freeMemThreshold = 10;
+      freeMemKillThreshold = 5;
 
       extraArgs = [
         "-g"
         "-p"
         "--prefer"
-        "^(electron|chrome|chromium|firefox|zen|helium|vesktop)$"
+        ".*(ollama|llama|electron|chrome|chromium|firefox|zen|helium|vesktop)$"
         "--avoid"
-        "^(hyprland|hyprpanel|Xwayland|ghostty|walker)$"
+        ".*(Hyprland|hyprland|waybar|Xwayland|ghostty|walker)$"
       ];
     };
 

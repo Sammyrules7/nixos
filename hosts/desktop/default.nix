@@ -8,6 +8,10 @@
 
   features.gaming.steam.enable = true;
   features.gaming.vr.enable = true;
+  features.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
   features.upgrade = {
     cpuThreads = 5;
     memoryHigh = "16G";

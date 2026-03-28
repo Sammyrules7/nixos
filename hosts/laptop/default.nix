@@ -12,6 +12,11 @@
   };
   features.gaming.steam.enable = true;
   features.fprintd.enable = true;
+  features.ollama = {
+    enable = true;
+    acceleration = "rocm";
+    onlyOnAC = true;
+  };
   features.power.enable = true;
   features.upgrade = {
     cpuThreads = 2;
