@@ -3,12 +3,9 @@
 {
   stylix = {
     enable = true;
-    image = pkgs.fetchurl {
-      url = "https://github.com/AngelJumbo/gruvbox-wallpapers/raw/main/wallpapers/photography/beach.png";
-      sha256 = "sha256-Uym/931m4K6JQDOJdSYuF2bglYGtGDUD/Qm8yY0xw3s=";
-    };
+    image = ../../wallpapers/splatoon-summer-fest.jpg;
 
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
 
     cursor = {
       package = pkgs.bibata-cursors;
