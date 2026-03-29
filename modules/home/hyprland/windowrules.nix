@@ -53,6 +53,15 @@
           xray = off
           ignore_alpha = 0.005
       }
+
+      # Mako
+      layerrule {
+          name = mako-blur
+          match:namespace = ^(notifications)$
+          blur = on
+          xray = off
+          ignore_alpha = 0
+      }
     ";
   };
 }

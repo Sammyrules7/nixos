@@ -18,7 +18,19 @@
 
         modules-left = [ "hyprland/workspaces" "hyprland/window" ];
         modules-center = [ "custom/weather" "clock" ];
-        modules-right = [ "pulseaudio" "bluetooth" "network" "cpu" "memory" "temperature" "backlight" "power-profiles-daemon" "battery" "tray" ];
+        modules-right = [ "custom/mako" "pulseaudio" "bluetooth" "network" "cpu" "memory" "temperature" "backlight" "power-profiles-daemon" "battery" "tray" ];
+
+        "custom/mako" = {
+          interval = 1;
+          return-type = "json";
+          exec = pkgs.writeShellScript "mako-status" ''
+            mode=$(makoctl mode)
+            if echo "$mode" | grep -q "do-not-disturb"; then
+              echo '{"text": "<span size=\"17000\" rise=\"-2000\">󰂛</span>", "tooltip": "Do Not Disturb", "class": "dnd"}'
+            fi
+          '';
+          on-click = "makoctl mode -t do-not-disturb";
+        };
 
         "hyprland/workspaces" = {
           disable-scroll = true;
@@ -163,6 +175,7 @@
       #window,
       #clock,
       #custom-weather,
+      #custom-mako,
       #pulseaudio,
       #bluetooth,
       #network,

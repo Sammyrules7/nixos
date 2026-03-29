@@ -12,6 +12,7 @@
     ./btop.nix
     ./theming.nix
     ./walker.nix
+    ./mako.nix
     ./vesktop.nix
     ./voxtype.nix
     ./worktree-tool.nix

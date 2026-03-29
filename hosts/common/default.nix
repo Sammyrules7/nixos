@@ -34,6 +34,7 @@
     features.ghostty.enable = true;
     features.btop.enable = true;
     features.theming.enable = true;
+    features.mako.enable = true;
     features.walker.enable = true;
     features.vesktop.enable = true;
     features.zed.enable = true;

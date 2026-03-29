@@ -25,6 +25,13 @@
     # Blue light filter toggle (wlsunset)
     "$mod, N, exec, systemctl --user is-active --quiet wlsunset.service && systemctl --user stop wlsunset.service || systemctl --user start wlsunset.service"
 
+    # Mako (notifications)
+    "$mod, comma, exec, makoctl dismiss"
+    "$mod_SHIFT, comma, exec, makoctl mode -t do-not-disturb"
+    "$mod_ALT, comma, exec, makoctl restore"
+    "$mod_CONTROL, comma, exec, makoctl invoke"
+    "$mod_CONTROL_SHIFT, comma, exec, makoctl dismiss -a"
+
     # Move focus
     "$mod, left, movefocus, l"
     "$mod, right, movefocus, r"
