@@ -23,6 +23,8 @@
       url = "github:homarr-labs/dashboard-icons";
       flake = false;
     };
+
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
   outputs =
@@ -30,6 +32,7 @@
       self,
       nixpkgs,
       home-manager,
+      nix-flatpak,
       ...
     }@inputs:
     {
@@ -37,6 +40,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           inputs.stylix.nixosModules.stylix
+          nix-flatpak.nixosModules.nix-flatpak
           ./hosts/desktop
           home-manager.nixosModules.home-manager
         ];
@@ -46,6 +50,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           inputs.stylix.nixosModules.stylix
+          nix-flatpak.nixosModules.nix-flatpak
           ./hosts/laptop
           home-manager.nixosModules.home-manager
         ];
