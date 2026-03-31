@@ -24,7 +24,7 @@
     services.wivrn = {
       enable = true;
       openFirewall = true;
-      defaultRuntime = true;
+      highPriority = true;
       package = (pkgs.wivrn.override { cudaSupport = true; });
     };
 
