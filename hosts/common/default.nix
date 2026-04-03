@@ -33,6 +33,7 @@
     features.kdeconnect.enable = true;
     features.ghostty.enable = true;
     features.btop.enable = true;
+    features.fish.enable = true;
     features.theming.enable = true;
     features.mako.enable = true;
     features.walker.enable = true;

@@ -10,6 +10,7 @@
     ./kdeconnect.nix
     ./ghostty.nix
     ./btop.nix
+    ./fish.nix
     ./theming.nix
     ./walker.nix
     ./mako.nix

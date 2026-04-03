@@ -7,6 +7,7 @@
     users.users.sammy = {
       isNormalUser = true;
       description = "Sammy";
+      shell = pkgs.fish;
       extraGroups = [
         "networkmanager"
         "wheel"
@@ -22,6 +23,8 @@
         inputs.helium.packages."${pkgs.stdenv.hostPlatform.system}".default
       ];
     };
+
+    programs.fish.enable = true;
 
     home-manager = {
       extraSpecialArgs = { inherit inputs; };
