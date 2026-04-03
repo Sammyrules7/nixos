@@ -27,6 +27,10 @@
     features.hyprland.hypridle.enable = lib.mkDefault true;
     features.hyprland.hyprlock.enable = lib.mkDefault true;
 
+    home.packages = with pkgs; [
+      playerctl
+    ];
+
     wayland.windowManager.hyprland = {
       enable = true;
       settings = {
