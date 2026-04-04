@@ -26,7 +26,9 @@
           exec = pkgs.writeShellScript "mako-status" ''
             mode=$(makoctl mode)
             if echo "$mode" | grep -q "do-not-disturb"; then
-              echo '{"text": "<span size=\"17000\" rise=\"-2000\">󰂛</span>", "tooltip": "Do Not Disturb", "class": "dnd"}'
+              echo '{"text": "󰂛", "tooltip": "Do Not Disturb", "class": "dnd"}'
+            else
+              echo '{"text": "", "class": "none"}'
             fi
           '';
           on-click = "makoctl mode -t do-not-disturb";
@@ -45,7 +47,7 @@
           max-length = 30;
           separate-outputs = true;
           rewrite = {
-            "" = "Workspace";
+            "" = "󰇄  Workspace";
           };
         };
 
@@ -68,34 +70,34 @@
         };
 
         "clock" = {
-          format = "<span size='17000' rise='-2000'>󱑎</span> {:%I:%M %p}";
-          format-alt = "<span size='17000' rise='-2000'>󰃭</span> {:%A, %B %d, %Y (%I:%M %p)}";
+          format = "{:%I:%M %p}";
+          format-alt = "󰃭  {:%A, %B %d, %Y (%I:%M %p)}";
           tooltip-format = "<tt><small>{calendar}</small></tt>";
         };
 
         "cpu" = {
           interval = 1;
-          format = "<span size='17000' rise='-2000'></span> {usage}%";
-          format-alt = "<span size='17000' rise='-2000'></span> {usage}% ({avg_frequency}GHz)";
+          format = "  {usage}%";
+          format-alt = "  {usage}% ({avg_frequency}GHz)";
           tooltip = true;
         };
 
         "memory" = {
           interval = 1;
-          format = "<span size='17000' rise='-2000'>󰍛</span> {used:0.1f}G";
-          format-alt = "<span size='17000' rise='-2000'>󰍛</span> {used:0.1f}G/{total:0.1f}G";
+          format = "󰍛  {used:0.1f}G";
+          format-alt = "󰍛  {used:0.1f}G/{total:0.1f}G";
           tooltip = true;
         };
 
         "temperature" = {
           interval = 1;
           critical-threshold = 80;
-          format = "<span size='17000' rise='-2000'>{icon}</span> {temperatureC}°C";
+          format = "{icon}  {temperatureC}°C";
           format-icons = [ "" "" "" ];
         };
 
         "backlight" = {
-          format = "<span size='17000' rise='-2000'>{icon}</span> {percent}%";
+          format = "{icon}  {percent}%";
           format-icons = [ "" "" "" "" "" "" "" "" "" ];
         };
 
@@ -105,15 +107,15 @@
             warning = 30;
             critical = 15;
           };
-          format = "<span size='17000' rise='-2000'>{icon}</span> {capacity}%";
-          format-charging = "<span size='17000' rise='-2000'>󱐋</span> {capacity}%";
-          format-plugged = "<span size='17000' rise='-2000'></span> {capacity}%";
-          format-alt = "<span size='17000' rise='-2000'>{icon}</span> {time}";
+          format = "{icon}  {capacity}%";
+          format-charging = "󱐋  {capacity}%";
+          format-plugged = "  {capacity}%";
+          format-alt = "{icon}  {time}";
           format-icons = [ "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
         };
 
         "power-profiles-daemon" = {
-          format = "<span size='17000' rise='-2000'>{icon}</span>";
+          format = "{icon}";
           tooltip-format = "Power profile: {profile}\nDriver: {driver}";
           tooltip = true;
           format-icons = {
@@ -126,17 +128,17 @@
 
         "network" = {
           interval = 5;
-          format-wifi = "<span size='17000' rise='-2000'>󰤨</span> {essid}";
-          format-ethernet = "<span size='17000' rise='-2000'>󰈀</span> {ipaddr}";
-          format-disconnected = ""; 
+          format-wifi = "󰤨  {essid}";
+          format-ethernet = "󰈀  {ipaddr}";
+          format-disconnected = "󰤮  Disconnected"; 
           tooltip-format = "{ifname} via {gwaddr} 󰈀";
-          format-alt = "<span size='17000' rise='-2000'>󰤨</span> {signalStrength}%";
+          format-alt = "󰤨  {signalStrength}%";
         };
 
         "pulseaudio" = {
-          format = "<span size='17000' rise='-2000'>{icon}</span> {volume}%";
-          format-bluetooth = "<span size='17000' rise='-2000'>{icon}</span> {volume}%";
-          format-muted = ""; 
+          format = "{icon}  {volume}%";
+          format-bluetooth = "{icon}  {volume}%";
+          format-muted = "󰝟  Muted"; 
           format-icons = {
             headphone = "";
             hands-free = "󰂑";
@@ -150,12 +152,12 @@
         };
 
         "bluetooth" = {
-          format = "<span size='17000' rise='-2000'></span> {status}";
-          format-connected = "<span size='17000' rise='-2000'></span> {device_alias}";
-          format-connected-battery = "<span size='17000' rise='-2000'></span> {device_alias} {device_battery_percentage}%";
-          format-device-disconnected = "";
-          format-disabled = ""; 
-          format-off = "";      
+          format = "  {status}";
+          format-connected = "  {device_alias}";
+          format-connected-battery = "  {device_alias} {device_battery_percentage}%";
+          format-device-disconnected = "󰂲  {status}";
+          format-disabled = "󰂲  Disabled"; 
+          format-off = "󰂲  Off";      
           on-click = "blueman-manager";
         };
       };
@@ -164,7 +166,9 @@
       * {
           border: none;
           font-family: "JetBrainsMono Nerd Font Mono";
-          font-size: 13px;
+          font-size: 15px;
+          font-weight: normal;
+          min-height: 0;
       }
 
       window#waybar {
@@ -192,6 +196,15 @@
           padding: 0 12px;
           margin: 4px 3px;
           border: 1px solid rgba(255, 255, 255, 0.05);
+          min-height: 28px;
+      }
+
+      #custom-mako.none {
+          background-color: transparent;
+          border: none;
+          padding: 0;
+          margin: 0;
+          min-height: 0;
       }
 
       /* Clean, outline-free workspace selector */
@@ -199,22 +212,23 @@
           background-color: rgba(255, 255, 255, 0.01); 
           color: #ffffff;
           border-radius: 12px;
-          padding: 0 4px;
+          padding: 0 2px;
           margin: 4px 3px;
           border: none;
           box-shadow: none;
       }
 
       #workspaces button {
-          padding: 0 8px;
+          padding: 0 6px;
           color: #ffffff;
           border-radius: 10px;
-          margin: 3px 2px;
+          margin: 3px 1px;
           transition: all 0.2s ease;
-          font-size: 18px;
+          font-size: 15px;
           border: none;
           outline: none;
           box-shadow: none;
+          min-width: 24px;
       }
 
       #workspaces button.active {
@@ -242,10 +256,6 @@
       #battery.critical:not(.charging) {
           color: #e74c3c;
           animation: blink 0.5s infinite alternate;
-      }
-
-      #cpu, #memory {
-          font-family: "JetBrainsMono Nerd Font Mono";
       }
 
       #tray {
