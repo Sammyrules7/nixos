@@ -56,7 +56,9 @@ in
     wayland.windowManager.hyprland.settings = lib.mkIf config.features.hyprland.enable {
       bind = [
         "$mod, X, exec, voxtype record start"
-        "$mod, , exec, voxtype record stop"
+      ];
+      bindr = [
+        "$mod, X, exec, voxtype record stop"
       ];
     };
   };

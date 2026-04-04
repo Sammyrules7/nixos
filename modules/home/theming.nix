@@ -25,6 +25,7 @@
 
     gtk = {
       enable = true;
+      gtk4.theme = config.gtk.theme;
       # theme, gtk-xft-dpi etc. will be handled by Stylix if needed
     };
 
