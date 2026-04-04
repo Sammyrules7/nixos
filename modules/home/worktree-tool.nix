@@ -27,6 +27,45 @@ let
     NC='\033[0m' # No Color
   '';
 
+  # Workflow helper script
+  flow-script = pkgs.writeShellScriptBin "flow" ''
+    set -e
+    ${colors}
+
+    while true; do
+      clear
+      echo -e "''${BLUE}=== NMC Workflow Helper ===''${NC}"
+      echo ""
+      echo "1) Test (nixos-rebuild test)"
+      echo "2) Switch (nixos-rebuild switch)"
+      echo "3) Finish (nmc finish)"
+      echo "q) Quit"
+      echo ""
+      read -n 1 -p "Select [1-3, q]: " choice
+      echo ""
+
+      case $choice in
+        1)
+          echo -e "''${YELLOW}Building and testing...''${NC}"
+          sudo nixos-rebuild test --flake .#
+          echo ""
+          read -p "Press Enter to continue..."
+          ;;
+        2)
+          echo -e "''${YELLOW}Applying changes...''${NC}"
+          sudo nixos-rebuild switch --flake .#
+          echo ""
+          read -p "Press Enter to continue..."
+          ;;
+        3)
+          nmc finish
+          exit 0
+          ;;
+        q) exit 0 ;;
+      esac
+    done
+  '';
+
   nmc-script = pkgs.writeShellScriptBin "nmc" ''
     set -e
     ${colors}
@@ -35,16 +74,19 @@ let
     show_help() {
       echo -e "''${BLUE}NixOS Management CLI (nmc)''${NC}"
       echo ""
-      echo -e "Usage:"
+      echo "Commands:"
       echo -e "  nmc [start] <branch> [prompt]  Create or resume a feature worktree"
       echo -e "  nmc finish [branch]            Squash merge and cleanup"
       echo -e "  nmc help                       Show this message"
+      echo ""
+      echo "Inside worktree:"
+      echo -e "  flow                           Start the workflow helper"
     }
 
     start_worktree() {
       local branch="$1"
       local initial_prompt="$2"
-      
+
       # Change to main repo root to ensure .worktrees is found
       cd "$REPO_ROOT"
 
@@ -79,7 +121,7 @@ let
       fi
 
       local session_name="nixos-$(echo "$branch" | tr '.:' '-')"
-      
+
       if tmux has-session -t "$session_name" 2>/dev/null; then
         echo -e "''${GREEN}Attaching to existing tmux session...''${NC}"
         tmux attach-session -t "$session_name"
@@ -87,8 +129,7 @@ let
       fi
 
       if [ "$is_resume" = false ] && [ -z "$initial_prompt" ]; then
-        echo -e "''${YELLOW}Leave prompt empty for interactive mode.''${NC}"
-        read -p "Initial Gemini prompt: " initial_prompt
+        echo -e "''${YELLOW}Starting in interactive mode...''${NC}"
       fi
 
       echo -e "''${BLUE}Initializing tmux session '$session_name'...''${NC}"
@@ -107,19 +148,20 @@ let
         fi
       fi
 
+      tmux new-window -t "$session_name" -n "lazygit" -c "$REPO_ROOT/$worktree_path" "lazygit"
       tmux new-window -t "$session_name" -n "term" -c "$REPO_ROOT/$worktree_path"
       tmux select-window -t "$session_name:gemini"
-      
+
       tmux set-option -t "$session_name" status-left "[#S: $branch] "
       tmux set-option -t "$session_name" status-left-length 50
-      
+
       # Finally attach
       tmux attach-session -t "$session_name"
     }
 
     finish_worktree() {
       local branch="$1"
-      
+
       # Determine if we are running INSIDE a worktree
       local current_dir_branch=""
       if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
@@ -169,7 +211,7 @@ let
       echo -e "''${BLUE}Merging into main...''${NC}"
       git checkout main
       git pull --rebase || true
-      
+
       if ! git merge --squash "$branch"; then
         echo -e "''${RED}CONFLICTS DETECTED. Resolution required.''${NC}"
         exit 1
@@ -184,7 +226,7 @@ let
       git branch -D "$branch"
 
       local session_name="nixos-$(echo "$branch" | tr '.:' '-')"
-      
+
       # Kill session at the VERY END to ensure script completes if running inside it
       if tmux has-session -t "$session_name" 2>/dev/null; then
           echo -e "''${BLUE}Killing tmux session...''${NC}"
@@ -224,16 +266,52 @@ let
 
   # Walker integration script
   walker-nmc = pkgs.writeShellScriptBin "walker-nmc" ''
-    branch=$(echo "" | walker --dmenu --placeholder "Branch name (create/resume)")
-    if [ -z "$branch" ]; then exit 0; fi
+    ${findRoot}
 
-    prompt=$(echo "" | walker --dmenu --placeholder "Initial Gemini prompt (optional)")
-    
+    # List existing worktrees for selection
+    worktrees=$(ls -1 "$REPO_ROOT/.worktrees/" 2>/dev/null || true)
+
+    input=$(echo "$worktrees" | walker --dmenu \
+      --placeholder "Branch" \
+      --width 400 \
+      --maxheight 300 \
+      --exit)
+
+    if [ -z "$input" ]; then exit 0; fi
+
+    # Parse Branch[:Prompt]
+    if [[ "$input" == *":"* ]]; then
+      branch=$(echo "$input" | cut -d':' -f1 | xargs)
+      prompt=$(echo "$input" | cut -d':' -f2- | xargs)
+
+      if [ -n "$prompt" ]; then
+        ghostty -e bash -c "nmc start \"$branch\" \"$prompt\""
+      else
+        ghostty -e nmc start "$branch"
+      fi
+      exit 0
+    fi
+
+    branch=$(echo "$input" | xargs)
+
+    # If it's an existing branch, skip prompt dialog
+    if [ -d "$REPO_ROOT/.worktrees/$branch" ]; then
+      ghostty -e nmc start "$branch"
+      exit 0
+    fi
+
+    # For new branches, show optional prompt dialog
+    prompt=$(echo "" | walker --dmenu \
+      --placeholder "Initial Gemini prompt (optional)" \
+      --width 400 \
+      --inputonly \
+      --exit)
+
     # Trim whitespace
     prompt="$(echo "$prompt" | xargs)"
 
     if [ -n "$prompt" ]; then
-      ghostty -e bash -c "nmc start \"$branch\" \"$prompt\""
+      ghostty -e nmc start "$branch" "$prompt"
     else
       ghostty -e nmc start "$branch"
     fi
@@ -243,10 +321,13 @@ in
   options.features.worktree-tool.enable = lib.mkEnableOption "Git worktree helper for NixOS config";
 
   config = lib.mkIf cfg.enable {
+    programs.lazygit.enable = true;
+
     home.packages = [
       nmc-script
       nmcf-script
       walker-nmc
+      flow-script
     ];
 
     xdg.desktopEntries.nmc-start = {
