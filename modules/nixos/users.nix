@@ -11,6 +11,8 @@
       extraGroups = [
         "networkmanager"
         "wheel"
+        "video"
+        "input"
       ];
       packages = with pkgs; [
         zed-editor

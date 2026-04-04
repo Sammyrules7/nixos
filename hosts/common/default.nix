@@ -18,6 +18,7 @@
   features.upgrade.enable = true;
   features.hyprland.enable = true;
   features.kdeconnect.enable = true;
+  features.swayosd.enable = true;
   features.users.sammy.enable = true;
 
   home-manager = {
@@ -36,6 +37,7 @@
     features.fish.enable = true;
     features.theming.enable = true;
     features.mako.enable = true;
+    features.swayosd.enable = true;
     features.walker.enable = true;
     features.vesktop.enable = true;
     features.zed.enable = true;

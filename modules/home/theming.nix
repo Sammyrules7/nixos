@@ -26,6 +26,10 @@
     gtk = {
       enable = true;
       gtk4.theme = config.gtk.theme;
+      iconTheme = {
+        package = pkgs.adwaita-icon-theme;
+        name = "Adwaita";
+      };
       # theme, gtk-xft-dpi etc. will be handled by Stylix if needed
     };
 

@@ -62,6 +62,14 @@
           xray = off
           ignore_alpha = 0
       }
+
+      layerrule {
+          name = swayosd-blur
+          match:namespace = ^(swayosd)$
+          blur = on
+          xray = off
+          ignore_alpha = 0
+      }
     ";
   };
 }

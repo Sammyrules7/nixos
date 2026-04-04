@@ -16,6 +16,7 @@
     ./power.nix
     ./steam.nix
     ./stylix.nix
+    ./swayosd.nix
     ./users.nix
     ./upgrade.nix
     ./vr.nix

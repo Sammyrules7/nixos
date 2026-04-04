@@ -20,14 +20,14 @@
     "$mod, P, pseudo,"
     "$mod, J, togglesplit,"
     "$mod, F, fullscreen"
-    "CONTROL_$mod_SHIFT, Q, exec, command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"
+    "CONTROL_$mod_SHIFT, Q, exec, \"command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit\""
 
     # Blue light filter toggle (wlsunset)
-    "$mod, N, exec, systemctl --user is-active --quiet wlsunset.service && systemctl --user stop wlsunset.service || systemctl --user start wlsunset.service"
+    "$mod, N, exec, sh -c 'if systemctl --user is-active --quiet wlsunset.service; then systemctl --user stop wlsunset.service; swayosd-client --custom-message \"Night Light Disabled\" --custom-icon \"display-brightness-symbolic\"; else systemctl --user start wlsunset.service; swayosd-client --custom-message \"Night Light Enabled\" --custom-icon \"night-light-symbolic\"; fi'"
 
     # Mako (notifications)
     "$mod, comma, exec, makoctl dismiss"
-    "$mod_SHIFT, comma, exec, makoctl mode -t do-not-disturb"
+    "$mod_SHIFT, comma, exec, sh -c 'makoctl mode -t do-not-disturb; if makoctl mode | grep -q \"do-not-disturb\"; then swayosd-client --custom-message \"DND Enabled\" --custom-icon \"notifications-disabled-symbolic\"; else swayosd-client --custom-message \"DND Disabled\" --custom-icon \"preferences-system-notifications-symbolic\"; fi'"
     "$mod_ALT, comma, exec, makoctl restore"
     "$mod_CONTROL, comma, exec, makoctl invoke"
     "$mod_CONTROL_SHIFT, comma, exec, makoctl dismiss -a"
@@ -86,17 +86,17 @@
 
   # Generic binds
   bindl = [
-    ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-    ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-    ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-    ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-    ", XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+"
-    ", XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-"
-    ", XF86AudioNext, exec, playerctl next"
-    ", XF86AudioPause, exec, playerctl play-pause"
-    ", XF86AudioPlay, exec, playerctl play-pause"
-    ", XF86AudioPrev, exec, playerctl previous"
-    ", XF86AudioStop, exec, playerctl stop"
+    ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise"
+    ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower"
+    ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
+    ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
+    ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
+    ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+    ", XF86AudioNext, exec, swayosd-client --playerctl next"
+    ", XF86AudioPause, exec, swayosd-client --playerctl play-pause"
+    ", XF86AudioPlay, exec, swayosd-client --playerctl play-pause"
+    ", XF86AudioPrev, exec, swayosd-client --playerctl prev"
+    ", XF86AudioStop, exec, swayosd-client --playerctl stop"
     ", XF86AudioForward, exec, playerctl position 10+"
     ", XF86AudioRewind, exec, playerctl position 10-"
   ];

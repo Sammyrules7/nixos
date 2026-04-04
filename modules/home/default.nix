@@ -14,6 +14,7 @@
     ./theming.nix
     ./walker.nix
     ./mako.nix
+    ./swayosd.nix
     ./vesktop.nix
     ./voxtype.nix
     ./worktree-tool.nix
