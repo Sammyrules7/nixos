@@ -62,7 +62,7 @@
         };
         show_edit_predictions = true;
         edit_predictions = {
-          mode = "eager";
+          mode = "subtle";
           provider = "ollama";
           ollama = {
             api_url = "http://localhost:11434";
