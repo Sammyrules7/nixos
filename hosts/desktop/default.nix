@@ -33,7 +33,7 @@
   ];
   boot.kernelParams = [ "nvidia-drm.modeset=1" ];
 
-  zramSwap.memoryPercent = 75;
+zramSwap.memoryPercent = 75;
 
   # Hardware-specific (if any, e.g. for NVIDIA)
   hardware.graphics.enable = true;
