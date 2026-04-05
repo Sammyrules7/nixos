@@ -10,6 +10,7 @@
     ./fprintd.nix
     ./hyprland.nix
     ./kdeconnect.nix
+    ./kilocode.nix
     ./networking.nix
     ./ollama.nix
     ./oomd.nix

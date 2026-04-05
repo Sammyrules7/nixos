@@ -18,6 +18,7 @@
   features.upgrade.enable = true;
   features.hyprland.enable = true;
   features.kdeconnect.enable = true;
+  features.kilocode-cli.enable = true;
   features.swayosd.enable = true;
   features.users.sammy.enable = true;
 
@@ -29,8 +30,9 @@
   };
 
   # --- Home Manager User Features ---
-  home-manager.users.sammy = {
+home-manager.users.sammy = {
     features.hyprland.enable = true;
+    features.kilocode-cli.enable = true;
     features.kdeconnect.enable = true;
     features.ghostty.enable = true;
     features.btop.enable = true;

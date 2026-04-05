@@ -8,6 +8,7 @@
   imports = [
     ./hyprland
     ./kdeconnect.nix
+    ./kilocode.nix
     ./ghostty.nix
     ./btop.nix
     ./fish.nix
