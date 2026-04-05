@@ -38,7 +38,6 @@
   # Hardware-specific (if any, e.g. for NVIDIA)
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.open = true;
 
   home-manager.users.sammy = {
     imports = [
