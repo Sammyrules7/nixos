@@ -134,23 +134,26 @@ let
 
       echo -e "''${BLUE}Initializing tmux session '$session_name'...''${NC}"
       # Create session detached first
-      tmux new-session -d -s "$session_name" -c "$REPO_ROOT/$worktree_path" -n "gemini"
+      tmux new-session -d -s "$session_name" -c "$REPO_ROOT/$worktree_path" -n "kilo"
+
+      # Session ID based on branch to keep sessions separate per worktree
+      local kilo_session="$branch"
 
       if [ "$is_resume" = true ]; then
-        tmux send-keys -t "$session_name:gemini" "gemini --yolo --resume latest" C-m
+        tmux send-keys -t "$session_name:kilo" "kilo --model kilo/kilo-auto/free --session $kilo_session" C-m
       else
         if [ -n "$initial_prompt" ]; then
           # Escape quotes in the prompt
           local safe_prompt="''${initial_prompt//\"/\\\"}"
-          tmux send-keys -t "$session_name:gemini" "gemini --yolo -i \"$safe_prompt\"" C-m
+          tmux send-keys -t "$session_name:kilo" "kilo --model kilo/kilo-auto/free --session $kilo_session --prompt \"$safe_prompt\"" C-m
         else
-          tmux send-keys -t "$session_name:gemini" "gemini --yolo" C-m
+          tmux send-keys -t "$session_name:kilo" "kilo --model kilo/kilo-auto/free --session $kilo_session" C-m
         fi
       fi
 
       tmux new-window -t "$session_name" -n "lazygit" -c "$REPO_ROOT/$worktree_path" "lazygit"
       tmux new-window -t "$session_name" -n "term" -c "$REPO_ROOT/$worktree_path"
-      tmux select-window -t "$session_name:gemini"
+      tmux select-window -t "$session_name:kilo"
 
       tmux set-option -t "$session_name" status-left "[#S: $branch] "
       tmux set-option -t "$session_name" status-left-length 50
@@ -264,6 +267,11 @@ let
     exec nmc finish "$@"
   '';
 
+  # Kilo CLI script
+  kilo-script = pkgs.writeShellScriptBin "kilo" ''
+    exec steam-run npx @kilocode/cli "$@"
+  '';
+
   # Walker integration script
   walker-nmc = pkgs.writeShellScriptBin "walker-nmc" ''
     ${findRoot}
@@ -316,6 +324,33 @@ let
       ghostty -e nmc start "$branch"
     fi
   '';
+
+  # Kilo config with yolo-style permissive permissions
+  kilo-config = pkgs.writeTextFile {
+    name = "kilo.json";
+    text = ''
+      {
+        "model": "kilo/kilo-auto/free",
+        "permission": {
+          "bash": "allow",
+          "read": "allow",
+          "edit": "allow",
+          "glob": "allow",
+          "grep": "allow",
+          "list": "allow",
+          "task": "allow",
+          "webfetch": "allow",
+          "websearch": "allow",
+          "codesearch": "allow",
+          "todowrite": "allow",
+          "todoread": "allow",
+          "question": "allow",
+          "skill": "allow",
+          "external_directory": "allow"
+        }
+      }
+    '';
+  };
 in
 {
   options.features.worktree-tool.enable = lib.mkEnableOption "Git worktree helper for NixOS config";
@@ -326,9 +361,15 @@ in
     home.packages = [
       nmc-script
       nmcf-script
+      kilo-script
       walker-nmc
       flow-script
     ];
+
+    xdg.configFile.kilo_JSON = {
+      source = kilo-config;
+      target = "kilo/kilo.json";
+    };
 
     xdg.desktopEntries.nmc-start = {
       name = "Add feature";
