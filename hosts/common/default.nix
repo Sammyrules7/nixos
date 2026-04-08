@@ -44,5 +44,6 @@ home-manager.users.sammy = {
     features.vesktop.enable = true;
     features.zed.enable = true;
     features.worktree-tool.enable = true;
+    features.gnome-files.enable = true;
   };
 }

@@ -20,6 +20,7 @@
     ./voxtype.nix
     ./worktree-tool.nix
     ./zed.nix
+    ./gnome-files.nix
   ];
 
   home.stateVersion = "25.11";
