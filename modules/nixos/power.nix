@@ -1,13 +1,19 @@
 { config, lib, pkgs, ... }:
 
 {
-  options.features.power.enable = lib.mkEnableOption "Power management configuration";
+  options.features.power = {
+    enable = lib.mkEnableOption "Power management configuration";
+    mode = lib.mkOption {
+      type = lib.types.enum [ "aggressive" "minimal" ];
+      default = "aggressive";
+      description = "Power management mode: aggressive for laptops (max savings), minimal for desktops";
+    };
+  };
 
   config = lib.mkIf config.features.power.enable {
     services.power-profiles-daemon.enable = true;
 
-    # Power management for laptops (lid switch, battery, etc)
-    services.logind = {
+    services.logind = lib.mkIf (config.features.power.mode == "aggressive") {
       settings.Login = {
         HandleLidSwitch = "suspend-then-hibernate";
         HandleLidSwitchExternalPower = "suspend";
@@ -17,9 +23,7 @@
       };
     };
 
-    # System-wide hibernation setup
-    # Suspend-then-hibernate config (delay before hibernating after suspending)
-    systemd.sleep.settings.Sleep = {
+    systemd.sleep.settings.Sleep = lib.mkIf (config.features.power.mode == "aggressive") {
       HibernateDelaySec = "15min";
     };
   };

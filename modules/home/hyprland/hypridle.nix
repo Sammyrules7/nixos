@@ -6,7 +6,14 @@
 }:
 
 {
-  options.features.hyprland.hypridle.enable = lib.mkEnableOption "Hypridle daemon";
+  options.features.hyprland.hypridle = {
+    enable = lib.mkEnableOption "Hypridle daemon";
+    lockOnly = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Only lock on idle, no dpms off or hibernate";
+    };
+  };
 
   config = lib.mkIf config.features.hyprland.hypridle.enable {
     services.hypridle = {
@@ -18,20 +25,24 @@
           lock_cmd = "hyprlock";
         };
 
-        listener = [
-          {
-            timeout = 300; # 5min
-            on-timeout = "hyprlock";
-          }
-          {
-            timeout = 330; # 5.5min
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on";
-          }
-          {
-            timeout = 1800; # 30min
-            on-timeout = "systemctl hibernate";
-          }
+        listener = lib.mkMerge [
+          [
+            {
+              timeout = 300;
+              on-timeout = "hyprlock";
+            }
+          ]
+          (lib.mkIf (!config.features.hyprland.hypridle.lockOnly) [
+            {
+              timeout = 330;
+              on-timeout = "hyprctl dispatch dpms off";
+              on-resume = "hyprctl dispatch dpms on";
+            }
+            {
+              timeout = 1800;
+              on-timeout = "systemctl hibernate";
+            }
+          ])
         ];
       };
     };

@@ -40,6 +40,11 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = true;
 
+  features.power = {
+    enable = true;
+    mode = "minimal";
+  };
+
   home-manager.users.sammy = {
     imports = [
       ./displays.nix
@@ -52,6 +57,10 @@
     features.theming = {
       enable = true;
       scaling = 0.8;
+    };
+    features.hyprland.hypridle = {
+      enable = true;
+      lockOnly = true;
     };
     wayland.windowManager.hyprland.settings.input.sensitivity = 0;
   };
