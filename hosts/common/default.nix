@@ -20,6 +20,7 @@
   features.kdeconnect.enable = true;
   features.kilocode-cli.enable = true;
   features.swayosd.enable = true;
+  features.tailscale.enable = true;
   features.users.sammy.enable = true;
 
   home-manager = {

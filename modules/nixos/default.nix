@@ -18,6 +18,7 @@
     ./steam.nix
     ./stylix.nix
     ./swayosd.nix
+    ./tailscale.nix
     ./users.nix
     ./upgrade.nix
     ./vr.nix
