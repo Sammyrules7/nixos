@@ -45,5 +45,7 @@ home-manager.users.sammy = {
     features.zed.enable = true;
     features.worktree-tool.enable = true;
     features.gnome-files.enable = true;
+    features.gnome-image-viewer.enable = true;
+    features.showtime.enable = true;
   };
 }

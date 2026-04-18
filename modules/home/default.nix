@@ -21,6 +21,8 @@
     ./worktree-tool.nix
     ./zed.nix
     ./gnome-files.nix
+    ./gnome-image-viewer.nix
+    ./showtime.nix
   ];
 
   home.stateVersion = "25.11";
