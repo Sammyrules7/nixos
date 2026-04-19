@@ -48,5 +48,6 @@ home-manager.users.sammy = {
     features.gnome-files.enable = true;
     features.gnome-image-viewer.enable = true;
     features.showtime.enable = true;
+    features.file-roller.enable = true;
   };
 }

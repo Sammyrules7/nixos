@@ -23,6 +23,7 @@
     ./gnome-files.nix
     ./gnome-image-viewer.nix
     ./showtime.nix
+    ./file-roller.nix
   ];
 
   home.stateVersion = "25.11";
