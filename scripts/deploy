@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# NixOS deployment script that auto-detects the current machine type
+
+set -euo pipefail
+
+HOSTNAME=$(hostname)
+FLAKE_PATH="${FLAKE_PATH:-.}"
+
+detect_host() {
+    case "$HOSTNAME" in
+        Sammy_Desktop|SammyDesktop)
+            echo "Desktop"
+            ;;
+        Sammy_Laptop|SammyLaptop)
+            echo "Laptop"
+            ;;
+        *)
+            echo "Error: Unknown hostname '$HOSTNAME'. Expected 'Sammy_Desktop' or 'Sammy_Laptop'" >&2
+            exit 1
+            ;;
+    esac
+}
+
+show_usage() {
+    cat <<EOF
+Usage: $(basename "$0") <command>
+
+Commands:
+    test      - Test configuration with dry-activate
+    switch   - Apply configuration (requires sudo)
+
+Detected machine: $(detect_host)
+EOF
+}
+
+main() {
+    if [[ $# -eq 0 ]]; then
+        show_usage
+        exit 1
+    fi
+
+    local host
+    host=$(detect_host)
+    local cmd="$1"
+    local flake_ref="${FLAKE_PATH}#${host}"
+
+    case "$cmd" in
+        test)
+            echo "Testing configuration for ${host}..."
+            exec nixos-rebuild dry-activate --flake "$flake_ref"
+            ;;
+        switch)
+            echo "Switching to configuration for ${host}..."
+            exec sudo nixos-rebuild switch --flake "$flake_ref"
+            ;;
+        -h|--help|help)
+            show_usage
+            ;;
+        *)
+            echo "Error: Unknown command '$cmd'" >&2
+            show_usage
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

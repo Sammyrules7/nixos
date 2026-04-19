@@ -27,24 +27,27 @@ This repository contains a modular **NixOS and Home Manager configuration** buil
 
 ## Building and Running
 
-### Apply System Configuration
-To switch to the configuration for a specific host, use the `nixos-rebuild` command from the root of the repository:
+### Automated Deployment Script
+Use the deploy script to automatically detect the machine and apply the configuration:
 
 ```bash
-# For Desktop
-sudo nixos-rebuild switch --flake .#Desktop
+# Test configuration (dry-activate)
+./scripts/deploy test
 
-# For Laptop
-sudo nixos-rebuild switch --flake .#Laptop
+# Apply configuration (requires sudo)
+./scripts/deploy switch
 ```
-### Testing
-If you are done make sure to test your config, you can do this with this command:
+
+### Manual Deployment
+Only use manual commands if the deploy script is unavailable:
 
 ```bash
+# Test configuration
+nixos-rebuild dry-activate --flake .#(Desktop|Laptop)
 
-nixos-rebuild dry-activate --flake .#targetHost
+# Switch configuration
+sudo nixos-rebuild switch --flake .#(Desktop|Laptop)
 ```
-Make sure to replace targetHost with what you are working on.
 
 ### Update Flake Inputs
 ```bash
