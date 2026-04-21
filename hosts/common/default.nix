@@ -22,6 +22,7 @@
   features.swayosd.enable = true;
   features.tailscale.enable = true;
   features.users.sammy.enable = true;
+  features.sops.enable = true;
 
   home-manager = {
     backupFileExtension = "backup";
@@ -32,6 +33,7 @@
 
   # --- Home Manager User Features ---
 home-manager.users.sammy = {
+    features.kubernetes.enable = true;
     features.hyprland.enable = true;
     features.kilocode-cli.enable = true;
     features.kdeconnect.enable = true;

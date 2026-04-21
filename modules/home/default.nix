@@ -24,6 +24,7 @@
     ./gnome-image-viewer.nix
     ./showtime.nix
     ./file-roller.nix
+    ./kubernetes
   ];
 
   home.stateVersion = "25.11";

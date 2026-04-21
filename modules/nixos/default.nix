@@ -15,6 +15,7 @@
     ./ollama.nix
     ./oomd.nix
     ./power.nix
+    ./sops.nix
     ./steam.nix
     ./stylix.nix
     ./swayosd.nix

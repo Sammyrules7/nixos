@@ -7,6 +7,7 @@
     users.users.sammy = {
       isNormalUser = true;
       description = "Sammy";
+      uid = 1000;
       shell = pkgs.fish;
       extraGroups = [
         "networkmanager"

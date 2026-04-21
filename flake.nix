@@ -2,7 +2,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # 1. Add Home Manager input
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -25,6 +24,9 @@
     };
 
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    sopsnix.url = "github:Mic92/sops-nix";
+    sopsnix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -33,6 +35,7 @@
       nixpkgs,
       home-manager,
       nix-flatpak,
+      sopsnix,
       ...
     }@inputs:
     {
@@ -41,8 +44,14 @@
         modules = [
           inputs.stylix.nixosModules.stylix
           nix-flatpak.nixosModules.nix-flatpak
-          ./hosts/desktop
+          inputs.sopsnix.nixosModules.sops
           home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.sharedModules = [ inputs.sopsnix.homeManagerModules.sops ];
+          }
+          ./hosts/desktop
         ];
       };
 
@@ -51,8 +60,14 @@
         modules = [
           inputs.stylix.nixosModules.stylix
           nix-flatpak.nixosModules.nix-flatpak
-          ./hosts/laptop
+          inputs.sopsnix.nixosModules.sops
           home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.sharedModules = [ inputs.sopsnix.homeManagerModules.sops ];
+          }
+          ./hosts/laptop
         ];
       };
     };
