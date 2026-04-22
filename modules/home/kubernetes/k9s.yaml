@@ -1,0 +1,25 @@
+k9s:
+  ui:
+    headless: false
+    fuzzyNav: true
+    jumpBack: ""
+    skin: Default
+    status:
+      - CrashLoopBackOff
+      - ImagePullBackOff
+      - ErrImagePull
+      - NodeNotReady
+      - Unhealthy
+    freeze: false
+  metrics:
+    enable: true
+    refresh: 2s
+  logger:
+    extra: true
+  shell:
+    args:
+      - sh
+  maxSize: 10000
+  confirm: true
+  exit1: false
+  default: main

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, osConfig, ... }:
+{ config, lib, pkgs, osConfig, inputs, ... }:
 
 {
   options.features.kubernetes.enable = lib.mkEnableOption "Kubernetes tools and kubeconfig";
@@ -14,6 +14,18 @@
 
     home.shellAliases = {
       kubectl = "kubecolor";
+    };
+
+    xdg.configFile."k9s/k9s.yaml".source = ./k9s.yaml;
+
+    xdg.desktopEntries.k9s = {
+      name = "k9s";
+      exec = "k9s";
+      icon = "${inputs.dashboard-icons}/png/kubernetes.png";
+      terminal = false;
+      categories = [ "X-Kubernetes" "Development" "System" ];
+      type = "Application";
+      comment = "Kubernetes CLI management tool";
     };
 
     sops = {
