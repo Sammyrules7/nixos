@@ -32,16 +32,5 @@
         invisible=1
       '';
     };
-
-    systemd.user.services.mako = {
-      Unit = {
-        Description = "Mako notification daemon";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-    };
   };
 }
