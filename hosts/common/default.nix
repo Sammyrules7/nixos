@@ -23,6 +23,8 @@
   features.tailscale.enable = true;
   features.users.sammy.enable = true;
   features.sops.enable = true;
+  features.gaming.steam.enable = true;
+  features.gaming.minecraft.enable = true;
 
   home-manager = {
     backupFileExtension = "backup";

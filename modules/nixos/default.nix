@@ -11,6 +11,7 @@
     ./hyprland.nix
     ./kdeconnect.nix
     ./kilocode.nix
+    ./minecraft.nix
     ./networking.nix
     ./ollama.nix
     ./oomd.nix
