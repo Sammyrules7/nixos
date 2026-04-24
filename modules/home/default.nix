@@ -25,6 +25,7 @@
     ./showtime.nix
     ./file-roller.nix
     ./kubernetes
+    ./minecraft.nix
   ];
 
   home.stateVersion = "25.11";

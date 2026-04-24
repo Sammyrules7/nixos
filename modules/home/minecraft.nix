@@ -9,8 +9,8 @@
   options.features.gaming.minecraft.enable = lib.mkEnableOption "Minecraft (Prism Launcher)";
 
   config = lib.mkIf config.features.gaming.minecraft.enable {
-    environment.systemPackages = [
-      pkgs.prismlauncher
+    home.packages =  with pkgs; [
+      prismlauncher
     ];
   };
 }

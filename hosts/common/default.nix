@@ -24,8 +24,6 @@
   features.users.sammy.enable = true;
   features.sops.enable = true;
   features.gaming.steam.enable = true;
-  features.gaming.minecraft.enable = true;
-
   home-manager = {
     backupFileExtension = "backup";
     useGlobalPkgs = true;
@@ -53,5 +51,6 @@ home-manager.users.sammy = {
     features.gnome-image-viewer.enable = true;
     features.showtime.enable = true;
     features.file-roller.enable = true;
+    features.gaming.minecraft.enable = true;
   };
 }
