@@ -6,13 +6,13 @@ let
     permission = {
       bash = {
         "*" = "allow";
-        "git push *" = "deny";
-        "git force-push *" = "deny";
-        "git reset *" = "deny";
-        "git checkout --force *" = "deny";
-        "git clean -fd *" = "deny";
-        "git rebase -i *" = "deny";
-        "git commit --amend *" = "deny";
+        "git push *" = "ask";
+        "git force-push *" = "ask";
+        "git reset *" = "ask";
+        "git checkout --force *" = "ask";
+        "git clean -fd *" = "ask";
+        "git rebase -i *" = "ask";
+        "git commit --amend *" = "ask";
       };
       read = "allow";
       edit = "allow";
