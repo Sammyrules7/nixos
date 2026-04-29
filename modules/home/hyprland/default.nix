@@ -10,6 +10,7 @@
   imports = [
     ./autostart.nix
     ./binds.nix
+    ./hyprshot.nix
     ./web-apps.nix
     ./waybar.nix
     ./hypridle.nix
@@ -26,6 +27,7 @@
   config = lib.mkIf config.features.hyprland.enable {
     features.hyprland.hypridle.enable = lib.mkDefault true;
     features.hyprland.hyprlock.enable = lib.mkDefault true;
+    features.hyprland.hyprshot.enable = lib.mkDefault true;
 
     home.packages = with pkgs; [
       playerctl
