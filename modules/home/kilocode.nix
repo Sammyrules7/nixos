@@ -6,7 +6,7 @@ let
     permission = {
       bash = {
         "*" = "allow";
-        "git push *" = "ask";
+        #"git push *" = "ask";
         "git force-push *" = "ask";
         "git reset *" = "ask";
         "git checkout --force *" = "ask";
