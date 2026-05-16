@@ -35,6 +35,7 @@
 
     wayland.windowManager.hyprland = {
       enable = true;
+      configType = "hyprlang";
       settings = {
         general = {
           allow_tearing = true;
