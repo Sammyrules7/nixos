@@ -31,6 +31,7 @@
 
     home.packages = with pkgs; [
       playerctl
+      impala
     ];
 
     wayland.windowManager.hyprland = {
