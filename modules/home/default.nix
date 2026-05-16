@@ -26,6 +26,7 @@
     ./file-roller.nix
     ./kubernetes
     ./minecraft.nix
+    ./wluma.nix
   ];
 
   home.stateVersion = "25.11";
