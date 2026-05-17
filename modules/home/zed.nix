@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 
@@ -23,74 +22,89 @@
   config = lib.mkIf config.features.zed.enable {
     programs.zed-editor = {
       enable = true;
-      userSettings = lib.mkForce {
-        git = {
-          inline_blame = {
-            show_commit_summary = true;
-          };
-        };
-        project_panel = {
-          hide_root = true;
-        };
-        tabs = {
-          git_status = true;
-        };
-        prettier = {
-          allowed = true;
-        };
-        middle_click_paste = false;
-        inlay_hints = {
-          enabled = true;
-        };
-        minimap = {
-          max_width_columns = 80;
-          display_in = "all_editors";
-          show = "auto";
-        };
-        git_panel = {
-          tree_view = true;
-        };
-        agent = {
-          notify_when_agent_waiting = "all_screens";
-          show_turn_stats = true;
-          favorite_models = [ ];
-          model_parameters = [ ];
-          tool_permissions = {
-            default = "allow";
-            tools = { };
-          };
-        };
-        show_edit_predictions = true;
-        edit_predictions = {
-          mode = "subtle";
-          provider = "ollama";
-          ollama = {
-            api_url = "http://localhost:11434";
-            model = config.features.zed.inlineModel;
-          };
-        };
-
-        theme = "Glassy";
-
-        language_models = {
-          ollama = {
-            api_url = "http://localhost:11434/api";
-          };
-        };
-        assistant = {
-          version = "2";
-          default_model = {
-            provider = "ollama";
-            model = config.features.zed.assistantModel;
-          };
-        };
-      };
-      extensions = [
-        "nix"
-        "git-firefly"
-      ];
     };
-
+    home.file.".config/zed/settings.json".text = ''
+      {
+        "show_edit_predictions": false,
+        "agent": {
+          "use_modifier_to_send": true,
+          "favorite_models": [],
+          "model_parameters": [],
+          "show_turn_stats": true
+        },
+        "edit_predictions": {
+          "ollama": {
+            "model": "qwen2.5-coder:1.5b"
+          },
+          "provider": "ollama",
+          "allow_data_collection": "yes"
+        },
+        "git": {
+          "inline_blame": {
+            "show_commit_summary": true
+          }
+        },
+        "git_panel": {
+          "show_count_badge": false,
+          "diff_stats": true,
+          "folder_icons": true,
+          "file_icons": false,
+          "tree_view": true
+        },
+        "terminal": {
+          "env": {
+            "EDITOR": "zeditor --wait"
+          },
+          "cursor_shape": "block",
+          "working_directory": "current_project_directory",
+          "shell": "system",
+          "show_count_badge": false
+        },
+        "project_panel": {
+          "sort_mode": "directories_first",
+          "hide_root": true,
+          "sticky_scroll": true,
+          "git_status_indicator": false,
+          "bold_folder_labels": false
+        },
+        "window_decorations": "client",
+        "tab_bar": {
+          "show": true
+        },
+        "tabs": {
+          "git_status": true
+        },
+        "status_bar": {
+          "show_active_file": false
+        },
+        "title_bar": {
+          "show_branch_name": true,
+          "show_branch_status_icon": true
+        },
+        "prettier": {
+          "allowed": false
+        },
+        "minimap": {
+          "show": "auto"
+        },
+        "theme": "Glassy",
+      }
+    '';
+    # Zed actions
+    home.file.".config/zed/tasks.json".text = ''
+      [
+        {
+          "label": "SOPS: Edit Current File",
+          "command": "sops $ZED_FILE",
+          "env": {
+            "EDITOR": "zeditor --wait"
+          },
+          "use_new_terminal": false,
+          "allow_concurrent_runs": true,
+          "hide": "on_success"
+        }
+      ]
+    '';
     # Install the custom theme
     home.file.".config/zed/themes/glassy.json".text = builtins.toJSON {
       name = "Glassy";
