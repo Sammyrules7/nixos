@@ -1,0 +1,31 @@
+name: Build NixOS Configurations & Cache to Attic
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: determinateSystems/nix-installer-action@v16
+
+      - name: Setup Attic Cache
+        uses: ryanccn/attic-action@v0
+        with:
+          endpoint: ${{ secrets.ATTIC_ENDPOINT }}
+          cache: main
+          token: ${{ secrets.ATTIC_TOKEN }}
+
+      - name: Build Missing Dervitations
+        run: |
+          nix build .#nixosConfigurations.Desktop.config.system.build.toplevel \
+                    .#nixosConfigurations.Laptop.config.system.build.toplevel \
+                    --log-format raw
