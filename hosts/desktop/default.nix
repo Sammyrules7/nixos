@@ -6,6 +6,8 @@
     ./hardware-configuration.nix
   ];
 
+  networking.interfaces.enp4s0.wakeOnLan.enable = true;
+
   features.gaming.steam.enable = true;
   features.gaming.vr.enable = true;
   features.ollama = {

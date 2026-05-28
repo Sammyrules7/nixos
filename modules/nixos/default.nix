@@ -17,6 +17,7 @@
     ./power.nix
     ./sops.nix
     ./steam.nix
+    ./ssh.nix
     ./stylix.nix
     ./swayosd.nix
     ./tailscale.nix
