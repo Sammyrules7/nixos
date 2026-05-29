@@ -1,7 +1,14 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  options.features.users.sammy.enable = lib.mkEnableOption "Sammy user configuration and Home Manager setup";
+  options.features.users.sammy.enable =
+    lib.mkEnableOption "Sammy user configuration and Home Manager setup";
 
   config = lib.mkIf config.features.users.sammy.enable {
     users.users.sammy = {
@@ -23,6 +30,7 @@
         nixd
         nil
         gemini-cli
+        cloudflare-warp
         inputs.helium.packages."${pkgs.stdenv.hostPlatform.system}".default
       ];
     };
