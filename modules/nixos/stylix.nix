@@ -5,6 +5,10 @@
     enable = true;
     image = ../../wallpapers/splatoon-summer-fest.jpg;
 
+    targets = {
+      kmscon.enable = false;
+    };
+
     base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
 
     cursor = {
