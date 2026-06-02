@@ -20,6 +20,7 @@
     ./ssh.nix
     ./stylix.nix
     ./swayosd.nix
+    ./godot.nix
     ./tailscale.nix
     ./users.nix
     ./upgrade.nix

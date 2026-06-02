@@ -20,6 +20,7 @@
     ./voxtype.nix
     ./worktree-tool.nix
     ./zed.nix
+    ./godot.nix
     ./gnome-files.nix
     ./gnome-image-viewer.nix
     ./showtime.nix
