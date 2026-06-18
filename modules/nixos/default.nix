@@ -14,6 +14,7 @@
     ./networking.nix
     ./ollama.nix
     ./oomd.nix
+    ./podman.nix
     ./power.nix
     ./sops.nix
     ./steam.nix
