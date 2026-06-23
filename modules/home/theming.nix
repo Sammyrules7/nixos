@@ -25,7 +25,6 @@
 
     gtk = {
       enable = true;
-      gtk4.theme = config.gtk.theme;
       iconTheme = {
         package = pkgs.adwaita-icon-theme;
         name = "Adwaita";
