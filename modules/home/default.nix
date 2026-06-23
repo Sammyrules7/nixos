@@ -27,6 +27,7 @@
     ./file-roller.nix
     ./kubernetes
     ./minecraft.nix
+    ./git.nix
     ./wluma.nix
   ];
 

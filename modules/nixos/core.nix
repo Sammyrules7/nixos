@@ -52,9 +52,5 @@
     documentation.nixos.enable = false;
 
     system.stateVersion = "25.11";
-
-    environment.systemPackages = with pkgs; [
-      git
-    ];
   };
 }
