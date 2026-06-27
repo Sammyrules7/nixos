@@ -18,6 +18,7 @@
     GODOT_JAVA_SDK_PATH = "${pkgs.jdk17}";
     ANDROID_HOME = "${config.home.profileDirectory}/libexec/android-sdk";
     ANDROID_SDK_ROOT = "${config.home.profileDirectory}/libexec/android-sdk";
+    GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=/etc/android-sdk/build-tools/35.0.0/aapt2";
   };
 
   programs.zed-editor = {

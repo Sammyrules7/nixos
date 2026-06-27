@@ -10,6 +10,16 @@ let
     (pkgs.androidenv.composeAndroidPackages {
       includeEmulator = false;
       includeNDK = false;
+      platformVersions = [
+        "34"
+        "35"
+        "36"
+      ];
+      buildToolsVersions = [
+        "34.0.0"
+        "35.0.0"
+        "36.1.0"
+      ];
     }).androidsdk;
 in
 {
