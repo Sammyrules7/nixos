@@ -28,6 +28,10 @@
       enable = true;
       scheduler = "scx_rustland";
     };
+    boot.kernel.sysctl = {
+      "vm.page-cluster" = 0;
+      "vm.watermark_boost_factor" = 0;
+    };
 
     boot.consoleLogLevel = 0;
     boot.kernelParams = [

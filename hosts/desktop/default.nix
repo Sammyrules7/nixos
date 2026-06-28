@@ -16,7 +16,7 @@
   };
   features.upgrade = {
     cpuThreads = 5;
-    memoryHigh = "16G";
+    memoryHigh = "24G";
     memoryMax = "32G";
   };
 
@@ -35,7 +35,7 @@
   ];
   boot.kernelParams = [ "nvidia-drm.modeset=1" ];
 
-  zramSwap.memoryPercent = 75;
+  boot.kernel.sysctl."vm.swappiness" = 150;
 
   # Hardware-specific (if any, e.g. for NVIDIA)
   hardware.graphics.enable = true;

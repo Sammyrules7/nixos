@@ -44,6 +44,7 @@
     zramSwap = {
       enable = true;
       algorithm = "zstd";
+      memoryPercent = 200;
     };
 
     time.timeZone = "America/Edmonton";

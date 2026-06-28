@@ -20,12 +20,12 @@
   features.power.enable = true;
   features.upgrade = {
     cpuThreads = 2;
-    memoryHigh = "8G";
-    memoryMax = "10G";
+    memoryHigh = "12G";
+    memoryMax = "16G";
   };
 
   networking.hostName = "Sammy_Laptop";
-
+  boot.kernel.sysctl."vm.swappiness" = 180;
   boot.kernelParams = [
     "amd_iommu=off"
     "amdgpu.fastboot=1"
