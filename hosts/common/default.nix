@@ -15,7 +15,7 @@
   features.audio.enable = true;
   features.bluetooth.enable = true;
   features.flatpak.enable = true;
-  features.upgrade.enable = true;
+  features.upgrade.enable = false;
   features.hyprland.enable = true;
   features.kdeconnect.enable = true;
   features.kilocode-cli.enable = true;
@@ -32,7 +32,7 @@
   };
 
   # --- Home Manager User Features ---
-home-manager.users.sammy = {
+  home-manager.users.sammy = {
     features.kubernetes.enable = true;
     features.hyprland.enable = true;
     features.kilocode-cli.enable = true;
