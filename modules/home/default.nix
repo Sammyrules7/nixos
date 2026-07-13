@@ -28,6 +28,7 @@
     ./kubernetes
     ./minecraft.nix
     ./git.nix
+    ./wakatime/wakatime.nix
     ./wluma.nix
   ];
 

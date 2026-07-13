@@ -1,5 +1,5 @@
 creation_rules:
-  - path_regex: modules/home/kubernetes/.*
+  - path_regex: '.*\.enc\.yaml$'
     key_groups:
       - age:
           # Workstations

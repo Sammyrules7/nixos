@@ -87,7 +87,7 @@
         "minimap": {
           "show": "auto"
         },
-        "theme": "Glassy",
+        "theme": "Glassy"
       }
     '';
     # Zed actions
