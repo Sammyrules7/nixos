@@ -6,6 +6,7 @@
     ./bluetooth.nix
     ./boot.nix
     ./core.nix
+    ./dev.nix
     ./flatpak.nix
     ./fprintd.nix
     ./hyprland.nix
