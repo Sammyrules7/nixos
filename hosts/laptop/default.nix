@@ -1,8 +1,12 @@
-{ inputs, pkgs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
-    ../common
     ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
   ];
@@ -10,7 +14,6 @@
     enable = true;
     capSysNice = true; # Helps with smooth frame timing
   };
-  features.gaming.steam.enable = true;
   features.fprintd.enable = true;
   features.ollama = {
     enable = true;
@@ -32,7 +35,7 @@
     "swiotlb=262144"
   ];
 
-  users.users.sammy.extraGroups = [
+  users.users.${config.workstation.user.name}.extraGroups = [
     "video"
     "iio"
   ];
@@ -63,7 +66,7 @@
     crypttabExtraOpts = [ "tpm2-device=auto" ];
   };
 
-  home-manager.users.sammy = {
+  home-manager.users.${config.workstation.user.name} = {
     imports = [
       ./displays.nix
     ];
@@ -73,7 +76,6 @@
       model = "base.en";
     };
     features.theming = {
-      enable = true;
       scaling = 1.0;
     };
     features.wluma.enable = true;

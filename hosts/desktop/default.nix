@@ -1,14 +1,12 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
-    ../common
     ./hardware-configuration.nix
   ];
 
   networking.interfaces.enp4s0.wakeOnLan.enable = true;
 
-  features.gaming.steam.enable = true;
   features.gaming.vr.enable = true;
   features.ollama = {
     enable = true;
@@ -47,7 +45,7 @@
     mode = "minimal";
   };
 
-  home-manager.users.sammy = {
+  home-manager.users.${config.workstation.user.name} = {
     imports = [
       ./displays.nix
     ];
@@ -57,7 +55,6 @@
       model = "small.en";
     };
     features.theming = {
-      enable = true;
       scaling = 0.8;
     };
     features.hyprland.hypridle = {

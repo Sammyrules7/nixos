@@ -2,6 +2,9 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:denful/import-tree";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -30,45 +33,15 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      nix-flatpak,
-      sopsnix,
+    inputs@{
+      flake-parts,
+      import-tree,
       ...
-    }@inputs:
-    {
-      nixosConfigurations.Desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          inputs.stylix.nixosModules.stylix
-          nix-flatpak.nixosModules.nix-flatpak
-          inputs.sopsnix.nixosModules.sops
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.sharedModules = [ inputs.sopsnix.homeManagerModules.sops ];
-          }
-          ./hosts/desktop
-        ];
-      };
-
-      nixosConfigurations.Laptop = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          inputs.stylix.nixosModules.stylix
-          nix-flatpak.nixosModules.nix-flatpak
-          inputs.sopsnix.nixosModules.sops
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.sharedModules = [ inputs.sopsnix.homeManagerModules.sops ];
-          }
-          ./hosts/laptop
-        ];
-      };
+    }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        flake-parts.flakeModules.modules
+        (import-tree ./flake-modules)
+      ];
     };
 }
