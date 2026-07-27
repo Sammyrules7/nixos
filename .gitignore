@@ -1,3 +1,6 @@
 .worktrees/
 .worktree/
 result
+
+node_modules/
+.pmpn_store/

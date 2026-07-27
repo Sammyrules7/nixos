@@ -20,6 +20,7 @@
     acceleration = "rocm";
     onlyOnAC = true;
   };
+  features.openclaw-node.enable = true;
   features.power.enable = true;
   features.upgrade = {
     cpuThreads = 2;

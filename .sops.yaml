@@ -3,5 +3,5 @@ creation_rules:
     key_groups:
       - age:
           # Workstations
-          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICBbJZYAoaiso9r80YdbBkqFZ1bggET4EEkzZ9ckBbGW"
-          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICvbJQ3KnO165S9pyfQ5qHXFv51cw3LmsvUn6Xo2Bbr7"
+          - "age1uklexwmu0y5kdlly9l33kn9gmvzuh395l0lj9dn943v0m80cd9eqp4vc8w"
+          - "age1c504s4cnsefv455h36jfn0q2yev0jy4ca9nwx6yt2mgqgksgm4ls5sqe9z"

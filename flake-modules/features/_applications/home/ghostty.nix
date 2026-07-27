@@ -2,6 +2,8 @@
 
 {
   config = {
+    stylix.targets.ghostty.opacity.enable = false;
+
     programs.ghostty = {
       enable = true;
       systemd.enable = true;
