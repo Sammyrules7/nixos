@@ -9,7 +9,6 @@
   options.features.gaming.vr.enable = lib.mkEnableOption "VR support (Monado, WiVRn, Xrizer)";
 
   config = lib.mkIf config.features.gaming.vr.enable {
-    nixpkgs.config.cudaSupport = true;
     nix.settings = {
       substituters = [
         "https://cache.nixos-cuda.org"
