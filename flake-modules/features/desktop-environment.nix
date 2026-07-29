@@ -4,6 +4,7 @@
   flake.modules = {
     nixos.desktop-environment = {
       imports = [
+        ./_desktop-environment/nixos/gnome-keyring.nix
         ./_desktop-environment/nixos/hyprland.nix
         ./_desktop-environment/nixos/kdeconnect.nix
         ./_desktop-environment/nixos/stylix.nix

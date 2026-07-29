@@ -6,6 +6,7 @@
       ./_applications/home/btop.nix
       ./_applications/home/file-roller.nix
       ./_applications/home/fish.nix
+      ./_applications/home/fractal.nix
       ./_applications/home/ghostty.nix
       ./_applications/home/gnome-files.nix
       ./_applications/home/gnome-image-viewer.nix
