@@ -8,6 +8,7 @@
   networking.interfaces.enp4s0.wakeOnLan.enable = true;
 
   features.gaming.vr.enable = true;
+  features.openclaw-node.enable = true;
   features.ollama.enable = true;
   features.upgrade = {
     cpuThreads = 5;
