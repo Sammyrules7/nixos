@@ -1,4 +1,13 @@
 creation_rules:
+  - path_regex: 'flake-modules/features/_platform-services/nixos/openclaw\.enc\.yaml$'
+    key_groups:
+      - age:
+          # Workstation user keys (for interactive editing)
+          - "age1uklexwmu0y5kdlly9l33kn9gmvzuh395l0lj9dn943v0m80cd9eqp4vc8w"
+          - "age1c504s4cnsefv455h36jfn0q2yev0jy4ca9nwx6yt2mgqgksgm4ls5sqe9z"
+          # Host keys (available during initrd activation)
+          - "age1l43tfr5qge3876ygcu34n46gug8hudptmzv9rl9ertyzjqhnfewqz6qvd0"
+          - "age1u90txnvjlqzp2llegjyh30aa44eetjf7xv7lyu689yfenjxsgaksy8m33k"
   - path_regex: '.*\.enc\.yaml$'
     key_groups:
       - age:

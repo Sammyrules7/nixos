@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   programs.hyprland.enable = true;
@@ -13,4 +13,7 @@
       };
     };
   };
+
+  # Do not let unrelated maintenance jobs postpone execution of the greeter.
+  systemd.services.greetd.serviceConfig.Type = lib.mkForce "simple";
 }

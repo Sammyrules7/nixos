@@ -21,74 +21,79 @@
   config = {
     programs.zed-editor = {
       enable = true;
+      # Keep the declarative settings immutable so Zed and Home Manager do not
+      # both try to rewrite the same store-backed file during activation.
+      mutableUserSettings = false;
+      userSettings = builtins.fromJSON ''
+        {
+          "show_edit_predictions": false,
+          "agent": {
+            "use_modifier_to_send": true,
+            "favorite_models": [],
+            "model_parameters": [],
+            "show_turn_stats": true
+          },
+          "edit_predictions": {
+            "ollama": {
+              "model": "qwen2.5-coder:1.5b"
+            },
+            "provider": "ollama",
+            "allow_data_collection": "yes"
+          },
+          "git": {
+            "inline_blame": {
+              "show_commit_summary": true
+            }
+          },
+          "git_panel": {
+            "show_count_badge": false,
+            "diff_stats": true,
+            "folder_icons": true,
+            "file_icons": false,
+            "tree_view": true
+          },
+          "terminal": {
+            "env": {
+              "EDITOR": "zeditor --wait"
+            },
+            "cursor_shape": "block",
+            "working_directory": "current_project_directory",
+            "shell": "system",
+            "show_count_badge": false
+          },
+          "project_panel": {
+            "sort_mode": "directories_first",
+            "hide_root": true,
+            "sticky_scroll": true,
+            "git_status_indicator": false,
+            "bold_folder_labels": false
+          },
+          "window_decorations": "client",
+          "tab_bar": {
+            "show": true
+          },
+          "tabs": {
+            "git_status": true
+          },
+          "status_bar": {
+            "show_active_file": false
+          },
+          "title_bar": {
+            "show_branch_name": true,
+            "show_branch_status_icon": true
+          },
+          "prettier": {
+            "allowed": false
+          },
+          "minimap": {
+            "show": "auto"
+          },
+          "theme": "Glassy"
+        }
+      '';
     };
-    home.file.".config/zed/settings.json".text = ''
-      {
-        "show_edit_predictions": false,
-        "agent": {
-          "use_modifier_to_send": true,
-          "favorite_models": [],
-          "model_parameters": [],
-          "show_turn_stats": true
-        },
-        "edit_predictions": {
-          "ollama": {
-            "model": "qwen2.5-coder:1.5b"
-          },
-          "provider": "ollama",
-          "allow_data_collection": "yes"
-        },
-        "git": {
-          "inline_blame": {
-            "show_commit_summary": true
-          }
-        },
-        "git_panel": {
-          "show_count_badge": false,
-          "diff_stats": true,
-          "folder_icons": true,
-          "file_icons": false,
-          "tree_view": true
-        },
-        "terminal": {
-          "env": {
-            "EDITOR": "zeditor --wait"
-          },
-          "cursor_shape": "block",
-          "working_directory": "current_project_directory",
-          "shell": "system",
-          "show_count_badge": false
-        },
-        "project_panel": {
-          "sort_mode": "directories_first",
-          "hide_root": true,
-          "sticky_scroll": true,
-          "git_status_indicator": false,
-          "bold_folder_labels": false
-        },
-        "window_decorations": "client",
-        "tab_bar": {
-          "show": true
-        },
-        "tabs": {
-          "git_status": true
-        },
-        "status_bar": {
-          "show_active_file": false
-        },
-        "title_bar": {
-          "show_branch_name": true,
-          "show_branch_status_icon": true
-        },
-        "prettier": {
-          "allowed": false
-        },
-        "minimap": {
-          "show": "auto"
-        },
-        "theme": "Glassy"
-      }
-    '';
+    # Preserve the explicitly managed Glassy theme.
+    stylix.targets.zed.enable = false;
     # Zed actions
     home.file.".config/zed/tasks.json".text = ''
       [

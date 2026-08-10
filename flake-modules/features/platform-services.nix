@@ -3,6 +3,7 @@
 {
   flake.modules.nixos.platform-services = {
     imports = [
+      ./_platform-services/nixos/attic.nix
       ./_platform-services/nixos/flatpak.nix
       ./_platform-services/nixos/fprintd.nix
       ./_platform-services/nixos/ollama.nix

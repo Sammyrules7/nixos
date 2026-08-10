@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 
 {
   nix.settings = {
@@ -29,7 +29,23 @@
     options = "--delete-older-than 7d";
   };
 
-  systemd.services.nix-gc.unitConfig.ConditionACPower = true;
+  systemd.services.nix-gc = {
+    unitConfig.ConditionACPower = true;
+    serviceConfig = {
+      Nice = 19;
+      CPUSchedulingPolicy = "idle";
+      IOSchedulingClass = "idle";
+      IOReadBandwidthMax = "/ 25M";
+      IOWriteBandwidthMax = "/ 10M";
+    };
+  };
+  systemd.timers.nix-gc.timerConfig = {
+    OnCalendar = lib.mkForce [ ];
+    OnBootSec = "1h";
+    OnUnitActiveSec = "1w";
+    Persistent = lib.mkForce false;
+    RandomizedDelaySec = lib.mkForce "15m";
+  };
 
   nixpkgs.config.allowUnfree = true;
 

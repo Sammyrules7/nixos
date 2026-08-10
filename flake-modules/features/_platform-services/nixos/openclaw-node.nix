@@ -48,6 +48,11 @@ in
       description = "OpenClaw headless node";
       wantedBy = [ "multi-user.target" ];
       wants = [ "network-online.target" ];
+      unitConfig = {
+        ConditionPathExists = config.sops.secrets.openclaw-gateway-token.path;
+        StartLimitIntervalSec = "5m";
+        StartLimitBurst = 3;
+      };
       after = [
         "network-online.target"
         "sops-nix.service"

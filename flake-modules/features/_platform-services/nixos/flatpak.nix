@@ -39,4 +39,11 @@
       MemoryMax = config.features.upgrade.memoryMax;
     };
   };
+  systemd.timers.flatpak-managed-install-timer.timerConfig = {
+    OnCalendar = lib.mkForce [ ];
+    OnBootSec = "10m";
+    OnUnitActiveSec = "1d";
+    Persistent = lib.mkForce false;
+    RandomizedDelaySec = "10m";
+  };
 }

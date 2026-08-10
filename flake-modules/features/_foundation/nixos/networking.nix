@@ -17,6 +17,14 @@
   ];
   systemd.services.NetworkManager-wait-online.enable = false;
 
+  # NetworkManager and Tailscale can restart the NSS lookup targets several
+  # times while DNS settles during boot. Keep nsncd from hitting the default
+  # five-start limit during that handoff.
+  systemd.services.nscd.unitConfig = {
+    StartLimitIntervalSec = "30s";
+    StartLimitBurst = 20;
+  };
+
   services.avahi = {
     enable = true;
     nssmdns4 = true;
