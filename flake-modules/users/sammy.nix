@@ -62,16 +62,42 @@ in
         programs.fish.enable = true;
 
         home-manager.users.${cfg.name} = {
-          imports = [ modules.homeManager.workstation ];
+          imports = [
+            modules.homeManager.workstation
+            inputs.zen-browser.homeModules.beta
+          ];
+
           home = {
             username = cfg.name;
             homeDirectory = cfg.homeDirectory;
           };
-        };
 
-        environment.systemPackages = [
-          inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-        ];
+          stylix.targets.zen-browser.enable = false;
+
+          programs.zen-browser = {
+            enable = true;
+
+            policies.ExtensionSettings = {
+              "{91aa3897-2634-4a8a-9092-279db23a7689}" = {
+                install_url = "https://addons.mozilla.org/firefox/downloads/latest/zen-internet/latest.xpi";
+                installation_mode = "normal_installed";
+              };
+
+              "addon@darkreader.org" = {
+                install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
+                installation_mode = "normal_installed";
+              };
+            };
+
+            profiles.default = {
+              name = "Default Profile";
+              path = "337jzpxv.Default Profile";
+              mods = [
+                "642854b5-88b4-4c40-b256-e035532109df" # Transparent Zen
+              ];
+            };
+          };
+        };
       };
     };
 }

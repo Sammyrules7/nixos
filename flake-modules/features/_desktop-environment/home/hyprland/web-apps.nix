@@ -1,7 +1,7 @@
 { pkgs, inputs, ... }:
 
 let
-  webAppBrowser = "helium";
+  webAppBrowser = "zen-beta";
   browser = "zen-beta";
 
   webApps = [
@@ -27,7 +27,7 @@ let
 
   mkDesktopEntry = app: {
     name = app.name;
-    exec = "${webAppBrowser} --app=${app.url}";
+    exec = "${webAppBrowser} --kiosk --blank-window ${app.url}";
     icon = app.icon;
     terminal = false;
     categories = [
@@ -37,10 +37,17 @@ let
     type = "Application";
   };
 
-  mkBind = app: "SUPER_SHIFT, ${app.key}, exec, ${webAppBrowser} --app=${app.url}";
+  mkBind = app: "SUPER_SHIFT, ${app.key}, exec, ${webAppBrowser} --kiosk --blank-window ${app.url}";
 
 in
 {
+  programs.zen-browser.profiles.default.userChrome = ''
+    /* Blank web-app windows should contain only the page itself. */
+    :root[zen-unsynced-window="true"] #navigator-toolbox {
+      display: none !important;
+    }
+  '';
+
   xdg.desktopEntries = builtins.listToAttrs (
     map (app: {
       name = app.name;
