@@ -1,13 +1,18 @@
 {
   wayland.windowManager.hyprland.settings = {
     monitor = [
-      "eDP-1, 2256x1504@60, auto, 1"
-      "DP-2, 1920x1080@60, auto-center-right, 1"
+      {
+        output = "eDP-1";
+        mode = "2256x1504@60";
+        position = "auto";
+        scale = 1;
+      }
+      {
+        output = "DP-2";
+        mode = "1920x1080@60";
+        position = "auto-center-right";
+        scale = 1;
+      }
     ];
-    #workspace = [
-    #  "1, monitor:HDMI-A-1"
-    #  "2, monitor:DP-2"
-    #  "3, monitor:DP-3"
-    #];
   };
 }

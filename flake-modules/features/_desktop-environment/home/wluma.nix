@@ -5,6 +5,10 @@
   ...
 }:
 
+let
+  lua = import ./hyprland/lua.nix { inherit lib; };
+  exec = command: lua.dispatcher "exec_cmd" command;
+in
 {
   options.features.wluma = {
     enable = lib.mkEnableOption "wluma automatic brightness adjustment";
@@ -22,11 +26,19 @@
     };
     wayland.windowManager.hyprland.settings = {
       permission = [
-        "${pkgs.wluma}/bin/.wluma-wrapped, screencopy, allow"
+        {
+          binary = "${pkgs.wluma}/bin/.wluma-wrapped";
+          type = "screencopy";
+          mode = "allow";
+        }
       ];
       bind = [
-        "$mod, XF86MonBrightnessDown, exec, sh -c 'if systemctl --user is-active --quiet wluma.service; then systemctl --user stop wluma.service; swayosd-client --custom-message \"Auto Brightness Disabled\" --custom-icon \"display-brightness-symbolic\"; fi'"
-        "$mod, XF86MonBrightnessUp, exec, sh -c 'if ! systemctl --user is-active --quiet wluma.service; then systemctl --user start wluma.service; swayosd-client --custom-message \"Auto Brightness Enabled\" --custom-icon \"display-brightness-symbolic\"; fi'"
+        (lua.bind "SUPER + XF86MonBrightnessDown" (
+          exec ''sh -c 'if systemctl --user is-active --quiet wluma.service; then systemctl --user stop wluma.service; swayosd-client --custom-message "Auto Brightness Disabled" --custom-icon "display-brightness-symbolic"; fi''
+        ))
+        (lua.bind "SUPER + XF86MonBrightnessUp" (
+          exec ''sh -c 'if ! systemctl --user is-active --quiet wluma.service; then systemctl --user start wluma.service; swayosd-client --custom-message "Auto Brightness Enabled" --custom-icon "display-brightness-symbolic"; fi''
+        ))
       ];
     };
     home.file.".config/wluma/config.toml".text = ''

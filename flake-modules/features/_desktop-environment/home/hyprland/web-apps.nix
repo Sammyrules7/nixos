@@ -1,8 +1,15 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 
 let
   webAppBrowser = "zen-beta";
   browser = "zen-beta";
+  lua = import ./lua.nix { inherit lib; };
+  exec = command: lua.dispatcher "exec_cmd" command;
 
   webApps = [
     {
@@ -37,7 +44,9 @@ let
     type = "Application";
   };
 
-  mkBind = app: "SUPER_SHIFT, ${app.key}, exec, ${webAppBrowser} --kiosk --blank-window ${app.url}";
+  mkBind =
+    app:
+    lua.bind "SUPER + SHIFT + ${app.key}" (exec "${webAppBrowser} --kiosk --blank-window ${app.url}");
 
 in
 {
@@ -56,11 +65,8 @@ in
   );
 
   wayland.windowManager.hyprland.settings = {
-    "$browser" = browser;
-    "$webAppBrowser" = webAppBrowser;
-
     bind = [
-      "SUPER_SHIFT, B, exec, $browser"
+      (lua.bind "SUPER + SHIFT + B" (exec browser))
     ]
     ++ (map mkBind webApps);
   };

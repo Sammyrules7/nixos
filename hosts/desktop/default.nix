@@ -59,6 +59,6 @@
       enable = true;
       lockOnly = true;
     };
-    wayland.windowManager.hyprland.settings.input.sensitivity = 0;
+    wayland.windowManager.hyprland.settings.config.input.sensitivity = 0;
   };
 }

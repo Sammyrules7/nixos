@@ -30,8 +30,15 @@ in
 {
   home.packages = [ syncWaylandClipboardToX11 ];
 
-  wayland.windowManager.hyprland.settings.exec-once = [
-    "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-    "${lib.getExe' pkgs.wl-clipboard "wl-paste"} --type text --watch ${lib.getExe syncWaylandClipboardToX11}"
-  ];
+  wayland.windowManager.hyprland.settings.on = {
+    _args = [
+      "hyprland.start"
+      (lib.generators.mkLuaInline ''
+        function()
+          hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+          hl.exec_cmd("${lib.getExe' pkgs.wl-clipboard "wl-paste"} --type text --watch ${lib.getExe syncWaylandClipboardToX11}")
+        end
+      '')
+    ];
+  };
 }

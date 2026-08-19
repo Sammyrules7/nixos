@@ -75,7 +75,11 @@
     };
 
     wayland.windowManager.hyprland.settings.permission = lib.mkAfter [
-      " .*hyprlock*. , screencopy, allow"
+      {
+        binary = ".*hyprlock.*";
+        type = "screencopy";
+        mode = "allow";
+      }
     ];
   };
 }

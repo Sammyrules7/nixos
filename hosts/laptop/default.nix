@@ -80,6 +80,6 @@
       scaling = 1.0;
     };
     features.wluma.enable = true;
-    wayland.windowManager.hyprland.settings.input.sensitivity = 0.3;
+    wayland.windowManager.hyprland.settings.config.input.sensitivity = 0.3;
   };
 }

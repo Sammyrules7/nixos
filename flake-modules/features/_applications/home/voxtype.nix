@@ -7,6 +7,8 @@
 
 let
   cfg = config.features.voxtype;
+  lua = import ../../_desktop-environment/home/hyprland/lua.nix { inherit lib; };
+  exec = command: lua.dispatcher "exec_cmd" command;
 in
 {
   options.features.voxtype = {
@@ -55,10 +57,8 @@ in
 
     wayland.windowManager.hyprland.settings = {
       bind = [
-        "$mod, X, exec, voxtype record start"
-      ];
-      bindr = [
-        "$mod, X, exec, voxtype record stop"
+        (lua.bind "SUPER + X" (exec "voxtype record start"))
+        (lua.bindWith "SUPER + X" (exec "voxtype record stop") { release = true; })
       ];
     };
   };

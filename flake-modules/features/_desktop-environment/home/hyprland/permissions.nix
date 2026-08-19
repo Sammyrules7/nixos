@@ -2,12 +2,24 @@
 
 {
   wayland.windowManager.hyprland.settings = {
-    ecosystem.enforce_permissions = true;
+    config.ecosystem.enforce_permissions = true;
     permission = lib.mkDefault [
       # Match the binary name regardless of the Nix store prefix
-      "grim, screencopy, allow"
-      "xdg-desktop-portal-hyprland, screencopy, allow"
-      "hyprpm, plugin, allow"
+      {
+        binary = "grim";
+        type = "screencopy";
+        mode = "allow";
+      }
+      {
+        binary = "xdg-desktop-portal-hyprland";
+        type = "screencopy";
+        mode = "allow";
+      }
+      {
+        binary = "hyprpm";
+        type = "plugin";
+        mode = "allow";
+      }
     ];
   };
 }
