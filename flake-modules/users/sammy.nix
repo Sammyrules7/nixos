@@ -53,7 +53,6 @@ in
             bluetui
             nixd
             nil
-            gemini-cli
             cloudflare-warp
             inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
           ];
