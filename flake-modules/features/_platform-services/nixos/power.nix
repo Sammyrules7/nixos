@@ -23,16 +23,13 @@
 
     services.logind = lib.mkIf (config.features.power.mode == "aggressive") {
       settings.Login = {
-        HandleLidSwitch = "suspend-then-hibernate";
+        # These workstations use zram, without persistent swap for hibernation.
+        HandleLidSwitch = "suspend";
         HandleLidSwitchExternalPower = "suspend";
         HandlePowerKey = "suspend";
-        IdleAction = "suspend-then-hibernate";
-        IdleActionSec = "20min";
+        # Hypridle owns idle suspend and respects desktop idle inhibitors.
+        IdleAction = "ignore";
       };
-    };
-
-    systemd.sleep.settings.Sleep = lib.mkIf (config.features.power.mode == "aggressive") {
-      HibernateDelaySec = "15min";
     };
   };
 }

@@ -35,6 +35,21 @@ nix flake check --no-build
 The deploy script detects the current hostname and selects the matching flake
 configuration.
 
+## Desktop shortcuts and laptop sleep
+
+- `Super+J`: toggle the dwindle split direction.
+- `Super+left mouse drag`: move a window; `Super+right mouse drag`: resize it.
+- `Super+Escape`: power menu (lock, suspend, log out, reboot, power off).
+- `Super+L`: lock; `Super+Shift+L`: suspend.
+- Hold volume or brightness keys for repeated adjustments.
+
+On the laptop, Hypridle locks after 5 minutes, turns displays off after 5½ minutes, and
+suspends after 30 minutes unless an application inhibits idle. Sleep requests
+also lock the session before sleeping. The laptop lid and power button suspend.
+The desktop only locks on idle.
+These machines have no persistent swap configured, so hibernation is not
+available; zram alone cannot retain a hibernation image across power loss.
+
 ## Agent tools
 
 The shared Home Manager profile installs:

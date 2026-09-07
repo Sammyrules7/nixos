@@ -1,9 +1,32 @@
-{ lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   lua = import ./lua.nix { inherit lib; };
   exec = command: lua.dispatcher "exec_cmd" command;
   window = lua.windowDispatcher;
+  powerMenu = pkgs.writeShellApplication {
+    name = "workstation-power-menu";
+    runtimeInputs = [
+      config.programs.walker.package
+      pkgs.systemd
+      pkgs.hyprland
+    ];
+    text = ''
+      choice=$(printf '%s\n' Lock Suspend 'Log out' Reboot 'Power off' | walker --dmenu --placeholder 'Power') || exit 0
+      case "$choice" in
+        Lock) loginctl lock-session ;;
+        Suspend) systemctl suspend ;;
+        'Log out') hyprctl eval 'hl.dispatch(hl.dsp.exit())' ;;
+        Reboot) systemctl reboot ;;
+        'Power off') systemctl poweroff ;;
+      esac
+    '';
+  };
 
   directions = [
     "left"
@@ -25,11 +48,11 @@ in
     (lua.bind "SUPER + ALT + W" (lua.windowDispatcher0 "kill"))
     (lua.bind "SUPER + V" (window "float" { action = "toggle"; }))
     (lua.bind "SUPER + SPACE" (exec "walker"))
-    (lua.bind "SUPER + ESCAPE" (exec "walker -m power"))
-    (lua.bind "SUPER + SHIFT + L" (exec "systemctl hibernate"))
+    (lua.bind "SUPER + ESCAPE" (exec (lib.getExe powerMenu)))
+    (lua.bind "SUPER + SHIFT + L" (exec "systemctl suspend"))
     (lua.bind "SUPER + L" (exec "hyprlock"))
     (lua.bind "SUPER + P" (lua.windowDispatcher0 "pseudo"))
-    (lua.bind "SUPER + J" (lua.dispatcher "layout" ""))
+    (lua.bind "SUPER + J" (lua.dispatcher "layout" "togglesplit"))
     (lua.bind "SUPER + F" (lua.windowDispatcher0 "fullscreen"))
     (lua.bind "CONTROL + SUPER + SHIFT + Q" (
       exec "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl eval 'hl.dispatch(hl.dsp.exit())'"
@@ -80,9 +103,11 @@ in
     # Media keys remain active while input is inhibited.
     (lua.bindWith "XF86AudioRaiseVolume" (exec "swayosd-client --output-volume raise") {
       locked = true;
+      repeating = true;
     })
     (lua.bindWith "XF86AudioLowerVolume" (exec "swayosd-client --output-volume lower") {
       locked = true;
+      repeating = true;
     })
     (lua.bindWith "XF86AudioMute" (exec "swayosd-client --output-volume mute-toggle") {
       locked = true;
@@ -90,8 +115,14 @@ in
     (lua.bindWith "XF86AudioMicMute" (exec "swayosd-client --input-volume mute-toggle") {
       locked = true;
     })
-    (lua.bindWith "XF86MonBrightnessUp" (exec "swayosd-client --brightness raise") { locked = true; })
-    (lua.bindWith "XF86MonBrightnessDown" (exec "swayosd-client --brightness lower") { locked = true; })
+    (lua.bindWith "XF86MonBrightnessUp" (exec "swayosd-client --brightness raise") {
+      locked = true;
+      repeating = true;
+    })
+    (lua.bindWith "XF86MonBrightnessDown" (exec "swayosd-client --brightness lower") {
+      locked = true;
+      repeating = true;
+    })
     (lua.bindWith "XF86AudioNext" (exec "swayosd-client --playerctl next") { locked = true; })
     (lua.bindWith "XF86AudioPause" (exec "swayosd-client --playerctl play-pause") { locked = true; })
     (lua.bindWith "XF86AudioPlay" (exec "swayosd-client --playerctl play-pause") { locked = true; })

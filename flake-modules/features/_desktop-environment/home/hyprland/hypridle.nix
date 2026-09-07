@@ -11,7 +11,7 @@
     lockOnly = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Only lock on idle, no dpms off or hibernate";
+      description = "Only lock on idle, no dpms off or suspend";
     };
   };
 
@@ -20,16 +20,18 @@
       enable = true;
       settings = {
         general = {
+          before_sleep_cmd = "loginctl lock-session";
+          inhibit_sleep = 3;
           after_sleep_cmd = "hyprctl dispatch dpms on";
           ignore_dbus_inhibit = false;
-          lock_cmd = "hyprlock";
+          lock_cmd = "pidof hyprlock || hyprlock";
         };
 
         listener = lib.mkMerge [
           [
             {
               timeout = 300;
-              on-timeout = "hyprlock";
+              on-timeout = "loginctl lock-session";
             }
           ]
           (lib.mkIf (!config.features.hyprland.hypridle.lockOnly) [
@@ -40,7 +42,7 @@
             }
             {
               timeout = 1800;
-              on-timeout = "systemctl hibernate";
+              on-timeout = "systemctl suspend";
             }
           ])
         ];
