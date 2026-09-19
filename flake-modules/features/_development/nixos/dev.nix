@@ -15,5 +15,7 @@
     go
     gopls
     gotools
+    tea
+    forgejo-cli
   ];
 }
