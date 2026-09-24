@@ -6,8 +6,34 @@
   ];
 
   networking.interfaces.enp4s0.wakeOnLan.enable = true;
+  services.tailscale.extraSetFlags = [ "--hostname=sammydesktop" ];
+
+  # This laptop's current network drops full-size tunnel replies. Keep the
+  # smaller MTU local to this peer rather than changing the entire tailnet.
+  systemd.services.game-stream-route = {
+    description = "Conservative Tailscale route to the streaming laptop";
+    after = [ "tailscaled.service" ];
+    wants = [ "tailscaled.service" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      if ${pkgs.iproute2}/bin/ip route show table 52 100.78.86.94/32 | ${pkgs.gnugrep}/bin/grep -q tailscale0; then
+        ${pkgs.iproute2}/bin/ip route change 100.78.86.94/32 dev tailscale0 table 52 mtu 1200 advmss 1100
+      fi
+    '';
+  };
+  systemd.timers.game-stream-route = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "10s";
+      OnUnitActiveSec = "30s";
+    };
+  };
 
   features.gaming.vr.enable = true;
+  features.sunshine = {
+    enable = true;
+    encoder = "nvenc";
+  };
   features.openclaw-node.enable = true;
   features.ollama.enable = true;
   features.upgrade = {

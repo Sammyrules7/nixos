@@ -29,6 +29,7 @@
   };
 
   networking.hostName = "Sammy_Laptop";
+  services.tailscale.extraSetFlags = [ "--hostname=sammylaptop" ];
   boot.kernel.sysctl."vm.swappiness" = 180;
   boot.kernelParams = [
     "amd_iommu=off"
@@ -71,6 +72,11 @@
     imports = [
       ./displays.nix
     ];
+    features.moonlight.settings = {
+      width = 2256;
+      height = 1504;
+      bitrate = 40000;
+    };
     features.btop.package = pkgs.btop.override { rocmSupport = true; };
     features.voxtype = {
       enable = true;

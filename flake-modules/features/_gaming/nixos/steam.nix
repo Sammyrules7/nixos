@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  environment.systemPackages = [ pkgs.moonlight-qt ];
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
