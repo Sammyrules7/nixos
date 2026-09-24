@@ -62,3 +62,20 @@ Codex Desktop does not have an official Linux release. The configured package is
 a community Linux compatibility build derived from OpenAI's desktop app. Its
 module pins the Codex CLI path so graphical launches do not depend on shell
 `PATH`.
+
+## Android development
+
+Android Studio uses the Nix-managed SDK at `/etc/android-sdk`. The SDK keeps
+Android platforms 34–36 and build tools 34.0.0, 35.0.0, and 36.1.0 for existing
+projects, and adds the latest platform and build tools available in the pinned
+Nixpkgs. They advance when the flake lock is updated. Godot retains its 35.0.0
+AAPT2 override; Android Studio uses the latest packaged AAPT2. The SDK is
+read-only, so add SDK versions in the Android Nix module rather than through
+Android Studio's SDK Manager.
+
+After switching the configuration, log out and back in. On the Pixel 8 Pro,
+enable Developer options and USB debugging, connect it with a data-capable USB
+cable, and accept the computer's debugging prompt. Check the connection with
+`adb devices`, then select the phone in Android Studio's Run target menu. Create
+a new project with the Empty Activity template to start a Kotlin/Jetpack Compose
+app.

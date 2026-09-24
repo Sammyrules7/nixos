@@ -4,14 +4,15 @@
   flake.modules = {
     nixos.development = {
       imports = [
+        ./_development/nixos/android.nix
         ./_development/nixos/dev.nix
-        ./_development/nixos/godot.nix
         ./_development/nixos/podman.nix
       ];
     };
 
     homeManager.development = {
       imports = [
+        ./_development/home/android.nix
         ./_development/home/git.nix
         ./_development/home/godot.nix
         ./_development/home/kubernetes
