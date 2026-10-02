@@ -11,6 +11,6 @@
       ./_foundation/nixos/bluetooth.nix
     ];
 
-    nix.settings.download-buffer-size = 524288000;
+    nix.settings.download-buffer-size = 64 * 1024 * 1024;
   };
 }

@@ -52,16 +52,37 @@ available; zram alone cannot retain a hibernation image across power loss.
 
 ## Agent tools
 
-The shared Home Manager profile installs:
+Open **T3 Code Nightly** in the launcher. It checks upstream releases at launch,
+and a user timer checks hourly in the background. T3 uses the latest stable
+Codex CLI from OpenAI's complete Linux package, including its helper binaries.
+T3 itself follows the nightly channel, excluding preview builds. No flake update
+or NixOS rebuild is needed for these application updates.
 
-- Codex CLI from `nixpkgs`
-- T3 Code from `nixpkgs`
-- Codex Desktop through the `ilysenko/codex-desktop-linux` Home Manager module
+Downloads are checked against the release's SHA-256 digest before installation.
+Updates switch version directories atomically; an offline launch uses the last
+verified installation. Current and previous versions are retained, along with
+any older version still used by a running process. Restart T3 to use an updated
+desktop application. `agent-tools-update` checks manually; inspect the timer with
+`journalctl --user -u agent-tools-update`.
 
-Codex Desktop does not have an official Linux release. The configured package is
-a community Linux compatibility build derived from OpenAI's desktop app. Its
-module pins the Codex CLI path so graphical launches do not depend on shell
-`PATH`.
+## Store maintenance and ambient light
+
+GC and store optimisation run on AC power with CPU, memory, bandwidth and IOPS
+limits on the filesystem containing `/nix`. Optimisation runs weekly instead of
+hashing every file during imports. The laptop builds one job with two cores.
+
+The laptop pauses wluma on lid close and rebinds only the Framework ALS HID hub
+on lid open and resume, without a fixed wake delay. Restarting the IIO proxy alone
+did not recover this machine's stuck sensor; the targeted HID rebind did. wluma
+polls twice per second and still accepts
+zero lux in a dark room. A manually disabled wluma stays disabled. Inspect
+`journalctl -u framework-als-lid -u framework-als-resume` for recovery logs.
+Recovery waits for systemd to thaw the desktop and coalesces the lid-open and
+resume events into one reset. wluma stops gracefully on lid close so it releases
+its screen-capture buffers before suspend.
+
+Workspace switching and window opening use a subtle spring curve. Hyprlock
+crossfades from the sharp screenshot to its cached blurred copy over 0.9 seconds.
 
 ## Android development
 

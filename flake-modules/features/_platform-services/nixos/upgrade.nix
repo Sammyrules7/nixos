@@ -36,6 +36,10 @@
       flags = [
         "--recreate-lock-file"
         "-L" # print build logs
+        "--max-jobs"
+        "1"
+        "--cores"
+        (toString config.features.upgrade.cpuThreads)
       ];
     };
 
@@ -48,6 +52,9 @@
         CPUQuota = config.features.upgrade.cpuQuota;
         MemoryHigh = config.features.upgrade.memoryHigh;
         MemoryMax = config.features.upgrade.memoryMax;
+        IOWeight = 1;
+        IOReadBandwidthMax = "/nix 20M";
+        IOWriteBandwidthMax = "/nix 10M";
       };
       environment = {
         NIX_BUILD_CORES = toString config.features.upgrade.cpuThreads;

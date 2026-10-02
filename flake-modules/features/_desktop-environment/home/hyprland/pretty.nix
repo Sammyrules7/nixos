@@ -11,25 +11,25 @@
       dwindle.preserve_split = true;
 
       decoration = {
-        rounding = 10;
+        rounding = 12;
         rounding_power = 2;
         active_opacity = 1.0;
         inactive_opacity = 1.0;
 
         shadow = {
           enabled = true;
-          range = 4;
+          range = 12;
           render_power = 3;
         };
 
         blur = {
           enabled = true;
           ignore_opacity = false;
-          size = 10;
-          passes = 4;
-          noise = 0.02;
-          brightness = 0.8;
-          contrast = 0.9;
+          size = 9;
+          passes = 3;
+          noise = 0.025;
+          brightness = 0.95;
+          contrast = 0.95;
           vibrancy = 0.1696;
         };
       };
@@ -38,6 +38,24 @@
     };
 
     curve = [
+      {
+        _args = [
+          "softSpring"
+          {
+            type = "bezier";
+            points = [
+              [
+                0.22
+                1.12
+              ]
+              [
+                0.36
+                1
+              ]
+            ];
+          }
+        ];
+      }
       {
         _args = [
           "easeOutQuint"
@@ -146,15 +164,15 @@
       {
         leaf = "windows";
         enabled = true;
-        speed = 4.79;
-        bezier = "easeOutQuint";
+        speed = 4.5;
+        bezier = "softSpring";
       }
       {
         leaf = "windowsIn";
         enabled = true;
-        speed = 4.1;
-        bezier = "easeOutQuint";
-        style = "popin 87%";
+        speed = 4.5;
+        bezier = "softSpring";
+        style = "popin 90%";
       }
       {
         leaf = "windowsOut";
@@ -216,23 +234,23 @@
       {
         leaf = "workspaces";
         enabled = true;
-        speed = 1.94;
-        bezier = "almostLinear";
-        style = "fade";
+        speed = 4;
+        bezier = "softSpring";
+        style = "slidefade 20%";
       }
       {
         leaf = "workspacesIn";
         enabled = true;
-        speed = 1.21;
-        bezier = "almostLinear";
-        style = "fade";
+        speed = 4;
+        bezier = "softSpring";
+        style = "slidefade 20%";
       }
       {
         leaf = "workspacesOut";
         enabled = true;
-        speed = 1.94;
-        bezier = "almostLinear";
-        style = "fade";
+        speed = 4;
+        bezier = "softSpring";
+        style = "slidefade 20%";
       }
       {
         leaf = "zoomFactor";

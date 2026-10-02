@@ -13,10 +13,21 @@
       enable = true;
       settings = lib.mkForce {
         general = {
-          disable_loading_bar = true;
           hide_cursor = true;
-          no_fade_in = false;
-          no_fade_out = false;
+        };
+        animations = {
+          enabled = true;
+          bezier = [
+            "gentle, 0.22, 1, 0.36, 1"
+            "blurRamp, 0.33, 0, 0.67, 1"
+          ];
+          animation = [
+            # Hyprlock mixes the sharp screenshot with its cached blurred copy.
+            # A gradual ramp keeps the transition visible without a long delay.
+            "fadeIn, 1, 9, blurRamp"
+            "fadeOut, 1, 3, blurRamp"
+            "inputFieldColors, 1, 2, gentle"
+          ];
         };
 
         background = [
@@ -24,6 +35,7 @@
             path = "screenshot"; # only png supported for now
             color = "rgba(25, 20, 20, 1.0)";
             blur_passes = 3; # increased for better effect
+            blur_size = 9;
             noise = 0.0117;
             contrast = 0.8916;
             brightness = 0.8172;
@@ -42,14 +54,13 @@
             outer_color = "rgba(255, 255, 255, 0)";
             inner_color = "rgba(255, 255, 255, 0.1)";
             font_color = "rgb(200, 200, 200)";
-            fade_on_empty = true;
+            fade_on_empty = false;
             placeholder_text = "󰟀  <i>Fingerprint or Password</i>";
             hide_input = false;
             rounding = -1; # Circular
             check_color = "rgb(204, 136, 34)";
             fail_color = "rgb(204, 34, 34)";
             fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
-            fail_transition = 300;
             position = "0, -120";
             halign = "center";
             valign = "center";
@@ -62,7 +73,7 @@
 
         label = [
           {
-            text = "$TIME";
+            text = "$TIME12";
             color = "rgba(200, 200, 200, 1.0)";
             font_size = 64;
             font_family = "JetBrainsMono Nerd Font Mono";

@@ -51,15 +51,15 @@
     };
 
     systemd.services.ollama = {
-      serviceConfig = lib.mkIf config.features.ollama.onlyOnAC {
+      unitConfig = lib.mkIf config.features.ollama.onlyOnAC {
         ConditionACPower = true;
       };
     };
 
     # Stop/Start Ollama based on AC power status
     services.udev.extraRules = lib.mkIf config.features.ollama.onlyOnAC ''
-      SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.systemd}/bin/systemctl stop ollama.service"
-      SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${pkgs.systemd}/bin/systemctl start ollama.service"
+      ACTION=="add|change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="0", RUN+="${pkgs.systemd}/bin/systemctl --no-block stop ollama.service"
+      ACTION=="add|change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", RUN+="${pkgs.systemd}/bin/systemctl --no-block start ollama.service"
     '';
   };
 }

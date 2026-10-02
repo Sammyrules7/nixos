@@ -24,8 +24,12 @@
   features.power.enable = true;
   features.upgrade = {
     cpuThreads = 2;
-    memoryHigh = "12G";
-    memoryMax = "16G";
+    memoryHigh = "3G";
+    memoryMax = "4G";
+  };
+  nix.settings = {
+    max-jobs = 1;
+    cores = 2;
   };
 
   networking.hostName = "Sammy_Laptop";
@@ -63,6 +67,42 @@
     brightnessctl
   ];
 
+  # A lid event arrives immediately, including short closes that never suspend.
+  # Keep IIO polling away from the sleeping HID sensor, then reclaim it on open.
+  systemd.services.framework-als-lid = {
+    description = "Framework ambient light sensor lid recovery";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "systemd-logind.service" ];
+    path = [
+      pkgs.systemd
+      pkgs.util-linux
+      pkgs.coreutils
+    ];
+    serviceConfig = {
+      ExecStart = "${pkgs.python3}/bin/python3 ${./als-lid.py} ${config.workstation.user.name} ${
+        toString config.users.users.${config.workstation.user.name}.uid
+      }";
+      Restart = "on-failure";
+      RestartSec = "3s";
+    };
+  };
+  systemd.services.framework-als-resume = {
+    description = "Recover Framework ALS after suspend with the lid open";
+    wantedBy = [ "suspend.target" ];
+    after = [ "systemd-suspend.service" ];
+    path = [
+      pkgs.systemd
+      pkgs.util-linux
+      pkgs.coreutils
+    ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.python3}/bin/python3 ${./als-lid.py} ${config.workstation.user.name} ${
+        toString config.users.users.${config.workstation.user.name}.uid
+      } --recover";
+    };
+  };
+
   boot.initrd.luks.devices."luks-9a6748f1-b660-4f2c-b9fe-40b0dd70c0d7" = {
     device = "/dev/disk/by-uuid/9a6748f1-b660-4f2c-b9fe-40b0dd70c0d7";
     crypttabExtraOpts = [ "tpm2-device=auto" ];
@@ -86,6 +126,17 @@
       scaling = 1.0;
     };
     features.wluma.enable = true;
+    features.wluma.package = pkgs.wluma.overrideAttrs (old: {
+      postPatch = (old.postPatch or "") + ''
+        # Two readings per second are responsive without hammering the HID hub.
+        substituteInPlace src/als/controller.rs \
+          --replace-fail 'WAITING_SLEEP_MS: u64 = 100' 'WAITING_SLEEP_MS: u64 = 500'
+        # Seek before reading, so a failed sysfs read cannot leave a stale offset.
+        substituteInPlace src/device_file.rs \
+          --replace-fail 'file.read_to_string(&mut content).await?;' \
+            'file.seek(SeekFrom::Start(0)).await?; file.read_to_string(&mut content).await?;'
+      '';
+    });
     wayland.windowManager.hyprland.settings.config.input.sensitivity = 0.3;
   };
 }

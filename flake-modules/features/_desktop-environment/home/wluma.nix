@@ -27,7 +27,7 @@ in
     wayland.windowManager.hyprland.settings = {
       permission = [
         {
-          binary = "${pkgs.wluma}/bin/.wluma-wrapped";
+          binary = "${config.features.wluma.package}/bin/.wluma-wrapped";
           type = "screencopy";
           mode = "allow";
         }

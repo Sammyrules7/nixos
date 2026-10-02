@@ -39,7 +39,6 @@ let
     terminal = false;
     categories = [
       "Network"
-      "WebBrowser"
     ];
     type = "Application";
   };
@@ -50,6 +49,30 @@ let
 
 in
 {
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = builtins.listToAttrs (
+      map
+        (mime: {
+          name = mime;
+          value = [ "zen-beta.desktop" ];
+        })
+        [
+          "text/html"
+          "application/xhtml+xml"
+          "x-scheme-handler/http"
+          "x-scheme-handler/https"
+          "x-scheme-handler/about"
+          "x-scheme-handler/unknown"
+          "x-scheme-handler/chrome"
+          "application/x-extension-htm"
+          "application/x-extension-html"
+          "application/x-extension-shtml"
+          "application/x-extension-xhtml"
+          "application/x-extension-xht"
+        ]
+    );
+  };
   programs.zen-browser.profiles.default.userChrome = ''
     /* Blank web-app windows should contain only the page itself. */
     :root[zen-unsynced-window="true"] #navigator-toolbox {

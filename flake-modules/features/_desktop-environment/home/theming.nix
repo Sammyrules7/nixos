@@ -17,6 +17,10 @@
   config = {
     home.pointerCursor.enable = true;
 
+    # Walker is the launcher; the unused Stylix Rofi target still sets the
+    # deprecated programs.rofi.font option in our pinned Stylix version.
+    stylix.targets.rofi.enable = false;
+
     dconf.settings = {
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
