@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }:
@@ -18,6 +19,7 @@
   features.ollama = {
     enable = true;
     acceleration = "rocm";
+    enableIntegratedGPU = true;
     onlyOnAC = true;
   };
   features.openclaw-node.enable = true;
@@ -36,8 +38,6 @@
   services.tailscale.extraSetFlags = [ "--hostname=sammylaptop" ];
   boot.kernel.sysctl."vm.swappiness" = 180;
   boot.kernelParams = [
-    "amd_iommu=off"
-    "amdgpu.fastboot=1"
     "swiotlb=262144"
   ];
 
@@ -65,6 +65,27 @@
 
   environment.systemPackages = with pkgs; [
     brightnessctl
+    (writeShellApplication {
+      name = "laptop-maintenance";
+      runtimeInputs = [
+        python3
+        cryptsetup
+        systemd
+        util-linux
+        coreutils
+        dosfstools
+        smartmontools
+        btrfs-progs
+      ];
+      text = ''
+        exec python3 ${./maintenance.py} \
+          --luks-device ${
+            lib.escapeShellArg
+              config.boot.initrd.luks.devices."luks-9a6748f1-b660-4f2c-b9fe-40b0dd70c0d7".device
+          } \
+          --boot-device ${lib.escapeShellArg config.fileSystems."/boot".device} "$@"
+      '';
+    })
   ];
 
   # A lid event arrives immediately, including short closes that never suspend.

@@ -53,19 +53,49 @@ available; zram alone cannot retain a hibernation image across power loss.
 ## Agent tools
 
 Open **T3 Code Nightly** in the launcher. It checks upstream releases at launch,
-and a user timer checks hourly in the background. T3 uses the latest stable
+and a user timer checks hourly in the background. Successful checks are reused
+for five minutes to keep repeated launches fast. T3 uses the latest stable
 Codex CLI from OpenAI's complete Linux package, including its helper binaries.
+This is the same native package used by `github:sadjow/codex-cli-nix`, pulled
+directly from upstream without waiting for that flake's hourly update. Terminal
+`codex` launches also check for updates; npm/`npx` is not required.
 T3 itself follows the nightly channel, excluding preview builds. No flake update
 or NixOS rebuild is needed for these application updates.
+
+Launcher updates show a desktop notification with the current stage, downloaded
+size, percentage, speed, and estimated time remaining. The launcher uses the
+upstream nightly icon, vendored from
+[`pingdotgg/t3code` (MIT)](https://github.com/pingdotgg/t3code/blob/f4f148eb670622a049ae6561d7795011e383fc43/assets/nightly/nightly-universal-1024.png).
 
 Downloads are checked against the release's SHA-256 digest before installation.
 Updates switch version directories atomically; an offline launch uses the last
 verified installation. Current and previous versions are retained, along with
 any older version still used by a running process. Restart T3 to use an updated
-desktop application. `agent-tools-update` checks manually; inspect the timer with
-`journalctl --user -u agent-tools-update`.
+desktop application. `agent-tools-update` forces a manual check;
+`agent-tools-update --notify` also shows desktop progress. Use
+`agent-tools-update --status` for the last update stage and installed versions,
+or inspect the timer with `journalctl --user -u agent-tools-update`.
 
 ## Store maintenance and ambient light
+
+The kernel command line deliberately omits `fastboot`: systemd interprets it as
+an instruction to skip filesystem checks. The EFI filesystem is checked before
+mounting at boot. The laptop uses the kernel's default IOMMU configuration so
+the AMD NPU driver can initialize; the obsolete `amdgpu.fastboot` option is gone.
+
+Ollama on the laptop explicitly enables integrated GPU inference. Model-download
+retries start at 30 seconds and back off, and AC-power notifications are coalesced
+before reconciling the service with the current mains state.
+
+After switching and rebooting, `sudo laptop-maintenance boot` backs up the EFI
+partition, unmounts it, repairs and verifies FAT, and remounts `/boot`.
+`sudo laptop-maintenance health` prints SSD SMART and Btrfs device counters.
+`sudo laptop-maintenance tpm` backs up the LUKS header and renews an existing
+direct-PCR TPM enrollment using the same PCR bank, indexes and PIN requirement.
+It preserves password/recovery slots and refuses signed, PCR-lock, differing or
+boot-phase policies. Run TPM renewal **after booting the final configuration**;
+it prompts locally for the disk passphrase and, when applicable, the TPM PIN.
+Backups are private and retained under `/var/backups/laptop-maintenance`.
 
 GC and store optimisation run on AC power with CPU, memory, bandwidth and IOPS
 limits on the filesystem containing `/nix`. Optimisation runs weekly instead of

@@ -28,7 +28,7 @@
   boot.consoleLogLevel = 0;
   boot.kernelParams = [
     "quiet"
-    "fastboot"
+    # "fastboot" makes systemd skip fsck, including checks of the EFI partition.
     "loglevel=3"
     "rd.systemd.show_status=auto"
     "nowatchdog"
