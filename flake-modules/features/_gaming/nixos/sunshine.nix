@@ -65,6 +65,20 @@ let
   };
 
   prep = [ { do = lib.getExe resize; } ];
+  steamPrep = prep ++ [
+    {
+      do = "${pkgs.systemd}/bin/systemctl --user start game-stream-steam.service";
+      undo = "${pkgs.systemd}/bin/systemctl --user stop game-stream-steam.service";
+    }
+  ];
+
+  checkSteam = pkgs.writeShellScript "game-stream-check-steam" ''
+    if ${pkgs.procps}/bin/pgrep -u "$(${pkgs.coreutils}/bin/id -u)" -x steam > /dev/null; then
+      echo "Steam is already running locally. Exit Steam, including its tray icon, before streaming." >&2
+      exit 1
+    fi
+  '';
+
   sessionEnvironment = {
     SHELL = lib.getExe pkgs.bash;
     XDG_SESSION_TYPE = "wayland";
@@ -112,12 +126,12 @@ in
       applications.apps = [
         {
           name = "Steam Big Picture";
-          prep-cmd = prep;
+          prep-cmd = steamPrep;
           detached = [ "${lib.getExe config.programs.steam.package} steam://open/bigpicture" ];
         }
         {
           name = "Satisfactory";
-          prep-cmd = prep;
+          prep-cmd = steamPrep;
           detached = [ "${lib.getExe config.programs.steam.package} steam://rungameid/526870" ];
         }
         {
@@ -174,6 +188,8 @@ in
 
     systemd.user.services.game-stream-session = {
       description = "Headless Wayland session for game streaming";
+      # Sunshine probes the display before running application prep commands.
+      # Keep Sway available, but leave Steam off until a Steam app is selected.
       wantedBy = [ "default.target" ];
       unitConfig.ConditionUser = user;
       # Sway runs exec commands through `sh` looked up in PATH.
@@ -215,7 +231,6 @@ in
 
     systemd.user.services.game-stream-steam = {
       description = "Steam Big Picture in the headless Wayland session";
-      wantedBy = [ "default.target" ];
       partOf = [ "game-stream-session.service" ];
       requires = [ "game-stream-session.service" ];
       after = [
@@ -226,9 +241,11 @@ in
       environment = sessionEnvironment;
       serviceConfig = {
         EnvironmentFile = "%t/game-stream/session.env";
+        ExecStartPre = checkSteam;
         ExecStart = "${lib.getExe config.programs.steam.package} -bigpicture";
-        Restart = "on-failure";
-        RestartSec = 5;
+        # Steam may replace its launcher during updates. Track its children
+        # until the client exits, and keep them owned by this service for stop.
+        ExitType = "cgroup";
       };
     };
 
@@ -238,7 +255,7 @@ in
         runtimeInputs = [ pkgs.systemd ];
         text = ''
           case "''${1:-status}" in
-            start) systemctl --user start game-stream-session sunshine game-stream-steam ;;
+            start) systemctl --user start game-stream-session sunshine ;;
             stop) systemctl --user stop game-stream-session ;;
             status) systemctl --user status game-stream-session sunshine game-stream-steam ;;
             *) echo "Usage: game-stream-host [start|stop|status]" >&2; exit 2 ;;

@@ -144,10 +144,14 @@ these preferences. Close Moonlight before activating changes. Activation merges
 preferences into its writable Qt settings file, preserving certificates and
 paired hosts.
 
-The desktop starts a separate headless Sway session and Steam Big Picture at
-boot, even before a physical login. No monitor or dummy plug is required. Steam
-uses Xwayland; native Wayland games can use the same session's Wayland socket.
-Existing Steam per-game launch options still apply. Sway resizes its virtual
+The desktop starts Sunshine and a separate headless Sway session at boot, even
+before a physical login. Sway supplies the virtual desktop Sunshine needs to
+check capture and encoding before it runs application launch commands. Steam
+stays off until you select **Steam Big Picture** or **Satisfactory** in Moonlight;
+selecting **Desktop** does not start Steam. No manual start command, monitor, or
+dummy plug is required. Steam uses Xwayland; native Wayland games can use the
+same session's Wayland socket. Existing Steam per-game launch options still
+apply. Sway resizes its virtual
 output to the Moonlight client's requested mode on connection. Game audio goes
 to a dedicated PipeWire sink rather than the desktop speakers. Streamed mouse
 and keyboard input is enabled only in the streaming compositor; Hyprland ignores
@@ -177,12 +181,17 @@ tailscale ping sammydesktop       # Prefer a direct connection over a DERP relay
 ssh sammydesktop game-stream-host status
 ```
 
-Steam permits one client instance per Unix user. The boot-time instance belongs
-to the streaming session, so exit it before using Steam on the physical desktop:
-run `game-stream-host stop` on the desktop, then open Steam locally. Exit local
-Steam and run `game-stream-host start` to stream again. Stopping the session also
-stops games running inside it; save first. Disconnecting Moonlight alone leaves
-games running so that you can reconnect.
+Steam permits one client instance per Unix user. Exit local Steam (including
+its tray icon) before selecting a Steam app in Moonlight. The remote Steam
+service refuses to start if Steam is already running locally. To return to
+the physical desktop, use Moonlight's **Quit App** action, which stops the
+remote Steam service, then open Steam locally. Save any running game first.
+Simply disconnecting Moonlight leaves Steam and games running for reconnection.
+
+`game-stream-host stop` stops the whole remote session, including Steam, Sway,
+and Sunshine. `game-stream-host start` makes Sway and Sunshine available again;
+Steam still starts only when selected in Moonlight. Run these locally or over
+SSH, for example `ssh sammydesktop game-stream-host stop`.
 
 For diagnostics, use `journalctl --user -u game-stream-session -u sunshine
 -u game-stream-steam` on the desktop. The Sunshine settings and application list
