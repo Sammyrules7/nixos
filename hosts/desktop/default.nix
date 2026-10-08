@@ -34,7 +34,10 @@
     enable = true;
     encoder = "nvenc";
   };
-  features.openclaw-node.enable = true;
+  features.openclaw-node = {
+    enable = true;
+    fullAccess = true;
+  };
   features.ollama.enable = true;
   features.upgrade = {
     cpuThreads = 5;
