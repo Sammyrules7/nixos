@@ -3,6 +3,7 @@
 {
   flake.modules.homeManager.agent-tools =
     {
+      config,
       pkgs,
       lib,
       ...
@@ -77,6 +78,17 @@
         mimeType = [ "x-scheme-handler/t3code" ];
       };
       xdg.mimeApps.defaultApplications."x-scheme-handler/t3code" = [ "t3code.desktop" ];
+      # User desktop files take precedence over the Home Manager package entry.
+      # Retire the old Downloads shortcut without touching custom launchers.
+      home.activation.retireLegacyT3Launcher = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        legacy=${lib.escapeShellArg "${config.xdg.dataHome}/applications/t3code.desktop"}
+        backup=${lib.escapeShellArg "${config.xdg.stateHome}/agent-tools/legacy-launchers"}
+        if [ -f "$legacy" ] && [ ! -L "$legacy" ] && \
+          ${pkgs.gnugrep}/bin/grep -Eq '^Exec=nix run nixpkgs#appimage-run -- /[^ ]*/Downloads/T3-Code-[^ ]+\.AppImage %u$' "$legacy"; then
+          run ${pkgs.coreutils}/bin/mkdir -p "$backup"
+          run ${pkgs.coreutils}/bin/mv --backup=numbered "$legacy" "$backup/t3code.desktop"
+        fi
+      '';
       systemd.user.services.agent-tools-update = {
         Unit.Description = "Update T3 Code nightly and Codex CLI";
         Service = {

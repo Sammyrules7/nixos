@@ -62,6 +62,10 @@ directly from upstream without waiting for that flake's hourly update. Terminal
 T3 itself follows the nightly channel, excluding preview builds. No flake update
 or NixOS rebuild is needed for these application updates.
 
+Activation moves the old `t3code.desktop` shortcut targeting an AppImage in
+Downloads into `~/.local/state/agent-tools/legacy-launchers/`. That user shortcut
+otherwise overrides the managed launcher, even after a successful upgrade.
+
 Launcher updates show a desktop notification with the current stage, downloaded
 size, percentage, speed, and estimated time remaining. The launcher uses the
 upstream nightly icon, vendored from
