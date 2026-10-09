@@ -22,7 +22,10 @@
     enableIntegratedGPU = true;
     onlyOnAC = true;
   };
-  features.openclaw-node.enable = true;
+  features.openclaw-node = {
+    enable = true;
+    fullAccess = true;
+  };
   features.power.enable = true;
   features.upgrade = {
     cpuThreads = 2;
