@@ -14,6 +14,15 @@
 
   environment.systemPackages = [ pkgs.ethtool ];
 
+  # sammydesktop's tailscaled runs Tailscale's built-in SSH server on port 22
+  # ("SSH-2.0-Tailscale" banner). Modern OpenSSH offers the post-quantum
+  # mlkem768x25519-sha256 KEX first, which stalls there during key exchange.
+  # Drop it so we agree on a classical KEX instead.
+  programs.ssh.extraConfig = ''
+    Host sammydesktop
+      KexAlgorithms -mlkem768x25519-sha256
+  '';
+
   users.users.${config.workstation.user.name}.openssh.authorizedKeys.keys = [
     # desktop
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICBbJZYAoaiso9r80YdbBkqFZ1bggET4EEkzZ9ckBbGW"
