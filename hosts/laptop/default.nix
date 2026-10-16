@@ -150,17 +150,6 @@
       scaling = 1.0;
     };
     features.wluma.enable = true;
-    features.wluma.package = pkgs.wluma.overrideAttrs (old: {
-      postPatch = (old.postPatch or "") + ''
-        # Two readings per second are responsive without hammering the HID hub.
-        substituteInPlace src/als/controller.rs \
-          --replace-fail 'WAITING_SLEEP_MS: u64 = 100' 'WAITING_SLEEP_MS: u64 = 500'
-        # Seek before reading, so a failed sysfs read cannot leave a stale offset.
-        substituteInPlace src/device_file.rs \
-          --replace-fail 'file.read_to_string(&mut content).await?;' \
-            'file.seek(SeekFrom::Start(0)).await?; file.read_to_string(&mut content).await?;'
-      '';
-    });
     wayland.windowManager.hyprland.settings.config.input.sensitivity = 0.3;
   };
 }
