@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 {
-  boot.initrd.systemd.enable = true;
   boot.initrd.compressor = "zstd";
 
   boot.loader.systemd-boot = {

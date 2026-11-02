@@ -9,7 +9,7 @@
       }
       {
         output = "DP-2";
-        mode = "1920x1080@60";
+        mode = "preferred";
         position = "auto-center-right";
         scale = 1;
       }
